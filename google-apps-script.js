@@ -26,11 +26,11 @@ const SPREADSHEET_ID = '1iQ-Hew4uODs9xOa7nQHqoDFHPSjH58mRheshwSrmEWg';
 
 function doPost(e) {
   try {
-    let ss;
-    try {
-      ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    } catch (err) {
-      ss = SpreadsheetApp.getActiveSpreadsheet();
+    let ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) {
+      try {
+        ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      } catch (err) {}
     }
 
     // 1. Ekstrak data JSON yang dikirim dari web
@@ -328,15 +328,13 @@ function setupPostTestHeaders(sheet) {
  * untuk memformat otomatis tab "Post-Test Pemahaman" di spreadsheet kamu!
  */
 function setupPostTestSheet() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  let postSheet = null;
-  const sheets = ss.getSheets();
-  for (let s of sheets) {
-    if (s.getSheetId() === 473406807 || s.getName() === 'Post-Test Pemahaman') {
-      postSheet = s;
-      break;
-    }
+  let ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) {
+    try {
+      ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    } catch (err) {}
   }
+  let postSheet = ss.getSheetByName('Post-Test Pemahaman');
   if (!postSheet) {
     postSheet = ss.insertSheet('Post-Test Pemahaman');
   } else {
