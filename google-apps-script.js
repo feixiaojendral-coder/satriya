@@ -122,8 +122,23 @@ function doPost(e) {
       const mcqScore = Number(data.mcqScore) || 0;
 
       // Formula otomatis untuk Nilai Akhir (Skor PG + Nilai Esai Guru)
-      const formulaTotal = `=G${nextRow}+J${nextRow}`;
-      const formulaPredikat = `=IF(K${nextRow}>=85, "SANGAT KOMPETEN (A) ⭐", IF(K${nextRow}>=75, "KOMPETEN (B) ✅", IF(K${nextRow}>=60, "CUKUP (C) ⚠️", "PERLU PEMBINAAN (D) ❌")))`;
+      var formulaTotal = '=G' + nextRow + '+J' + nextRow;
+      var formulaPredikat = '=IF(K' + nextRow + '>=85, "SANGAT KOMPETEN (A) ⭐", IF(K' + nextRow + '>=75, "KOMPETEN (B) ✅", IF(K' + nextRow + '>=60, "CUKUP (C) ⚠️", "PERLU PEMBINAAN (D) ❌")))';
+
+      var statusCbt = 'Tertib (0x)';
+      if (data.pelanggaranTab && Number(data.pelanggaranTab) > 0) {
+        statusCbt = '⚠️ ' + data.pelanggaranTab + 'x Pindah Tab';
+      }
+
+      var mcqCountText = data.mcqCorrectCount;
+      if (!mcqCountText) {
+        mcqCountText = Math.round(mcqScore / 3) + ' / 20';
+      }
+
+      var essayCountText = data.essayCountFormatted;
+      if (!essayCountText) {
+        essayCountText = (data.essayAnsweredCount || 0) + ' / 15';
+      }
 
       let rowValues = [
         nextRow - 1,                                                          // Col A (1): No
@@ -133,12 +148,12 @@ function doPost(e) {
         data.absen || '-',                                                    // Col E (5): No. Absen
         data.kelas || '-',                                                    // Col F (6): Kelas
         mcqScore,                                                             // Col G (7): Skor PG (Maks 60)
-        data.mcqCorrectCount || (Math.round(mcqScore / 3) + ' / 20'),        // Col H (8): Benar PG
-        data.essayCountFormatted || ((data.essayAnsweredCount || 0) + ' / 15'), // Col I (9): Esai Terisi
+        mcqCountText,                                                         // Col H (8): Benar PG
+        essayCountText,                                                       // Col I (9): Esai Terisi
         '',                                                                   // Col J (10): Nilai Esai Guru (Diisi Manual Guru)
         formulaTotal,                                                         // Col K (11): TOTAL NILAI AKHIR (100)
         formulaPredikat,                                                      // Col L (12): Predikat Capaian
-        data.pelanggaranTab ? ('⚠️ ' + data.pelanggaranTab + 'x Pindah Tab') : 'Tertib (0x)' // Col M (13): Integritas CBT
+        statusCbt                                                             // Col M (13): Integritas CBT
       ];
 
       // Cols N s.d. AG (14 s.d. 33): Detail PG 1 s.d. 20 (dengan simbol ✅ / ❌)
@@ -324,8 +339,18 @@ function setupPostTestHeaders(sheet) {
 }
 
 /**
+ * Menu otomatis di Google Spreadsheet saat file dibuka oleh Guru
+ */
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('⚙️ Menu DRAFT-LAB')
+    .addItem('🎨 Buat / Rapikan Format Post-Test', 'setupPostTestSheet')
+    .addToUi();
+}
+
+/**
  * FUNGSI INSTAN: Jalankan fungsi ini langsung di editor Apps Script
- * untuk memformat otomatis tab "Post-Test Pemahaman" di spreadsheet kamu!
+ * atau klik menu "⚙️ Menu DRAFT-LAB" di spreadsheet kamu!
  */
 function setupPostTestSheet() {
   let ss = SpreadsheetApp.getActiveSpreadsheet();
