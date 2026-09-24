@@ -1,0 +1,86 @@
+import FreeCAD as App
+import Part
+import math
+import os
+
+
+DOC_NAME = "Bracket93"
+OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def profile_face_xz(points, y=0.0):
+    vectors = [App.Vector(x, y, z) for x, z in points]
+    vectors.append(vectors[0])
+    return Part.Face(Part.makePolygon(vectors))
+
+
+try:
+    App.closeDocument(DOC_NAME)
+except Exception:
+    pass
+
+doc = App.newDocument(DOC_NAME)
+
+# Dimensions are in millimetres. The source drawing contains both 10 mm and
+# 6 mm around the base section; this example follows the front-view value 10 mm.
+base_thickness = 10.0
+base_length = 72.0
+base_back = 23.0
+base_front = -12.0
+mount_radius = 12.0
+mount_hole_radius = 6.0
+mount_centres = (-24.0, 24.0)
+
+# Base outline: rectangular rear half, front bridge, and two R12 end lobes.
+base = Part.makeBox(base_length, base_back, base_thickness, App.Vector(-36, 0, 0))
+base = base.fuse(Part.makeBox(48, 12, base_thickness, App.Vector(-24, base_front, 0)))
+for x in mount_centres:
+    base = base.fuse(Part.makeCylinder(mount_radius, base_thickness, App.Vector(x, 0, 0)))
+for x in mount_centres:
+    base = base.cut(Part.makeCylinder(mount_hole_radius, base_thickness, App.Vector(x, 0, 0)))
+
+# Upright stem with R15 blends. It is 13 mm thick and sits 5 mm from the back.
+stem_points = []
+for index in range(25):
+    angle = math.radians(-90 + (90.0 * index / 24.0))
+    stem_points.append((-30 + 15 * math.cos(angle), 25 + 15 * math.sin(angle)))
+stem_points.extend([(-15, 54), (15, 54)])
+for index in range(25):
+    angle = math.radians(180 + (90.0 * index / 24.0))
+    stem_points.append((30 + 15 * math.cos(angle), 25 + 15 * math.sin(angle)))
+stem = profile_face_xz(stem_points, 5).extrude(App.Vector(0, 13, 0))
+
+# Ø30 top boss with a Ø12 through-hole.
+boss = Part.makeCylinder(15, 13, App.Vector(0, 5, 60), App.Vector(0, 1, 0))
+boss_hole = Part.makeCylinder(6, 13, App.Vector(0, 5, 60), App.Vector(0, 1, 0))
+upright = stem.fuse(boss.cut(boss_hole))
+
+# Central rib, 10 mm wide and inclined at 60 degrees.
+rib_top = 10 + 17 * math.tan(math.radians(60))
+rib_wire = Part.makePolygon([
+    App.Vector(-5, -12, 10),
+    App.Vector(-5, 5, 10),
+    App.Vector(-5, 5, rib_top),
+    App.Vector(-5, -12, 10),
+])
+rib = Part.Face(rib_wire).extrude(App.Vector(10, 0, 0))
+
+result = base.fuse(upright).fuse(rib).removeSplitter()
+feature = doc.addObject("PartDesign::Feature", "Bracket93")
+feature.Label = "Bracket 93 - Reconstructed"
+feature.Shape = result
+feature.addProperty("App::PropertyString", "Source", "Reference").Source = "Study CADCAM - Modeling Practice Drawings 93"
+feature.addProperty("App::PropertyString", "Assumption", "Reference").Assumption = "Base thickness uses 10 mm from front view"
+if App.GuiUp:
+    feature.ViewObject.ShapeColor = (0.04, 0.48, 0.68)
+    feature.ViewObject.LineColor = (0.03, 0.14, 0.22)
+
+doc.recompute()
+doc.saveAs(os.path.join(OUTPUT_DIR, "bracket-93.FCStd"))
+Part.export([feature], os.path.join(OUTPUT_DIR, "bracket-93.step"))
+Part.export([feature], os.path.join(OUTPUT_DIR, "bracket-93-freecad.stl"))
+
+if App.GuiUp:
+    import FreeCADGui as Gui
+    Gui.activeDocument().activeView().viewAxonometric()
+    Gui.activeDocument().activeView().fitAll()

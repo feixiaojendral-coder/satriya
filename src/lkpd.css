@@ -1,0 +1,1230 @@
+/* ==========================================================================
+   LKPD (LEMBAR KERJA PESERTA DIDIK) STYLES
+   Desain autentik lembar kerja standar SMK & PPG Teknik Mesin
+   ========================================================================== */
+
+.lkpd-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+/* --- HERO & JOB SWITCHER TABS --- */
+.lkpd-header-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #edf5fc 100%);
+  border: 1px solid var(--border-glass, #dce7f4);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 4px 20px rgba(18, 63, 118, 0.05);
+}
+
+.lkpd-header-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.lkpd-title-group h3 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0f2942;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lkpd-title-group p {
+  color: #536a85;
+  font-size: 0.92rem;
+  max-width: 650px;
+  line-height: 1.5;
+}
+
+.lkpd-actions-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.lkpd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.lkpd-btn-primary {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.lkpd-btn-primary:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.35);
+}
+
+.lkpd-btn-outline {
+  background: #ffffff;
+  color: #1e3a5f;
+  border-color: #cbd5e1;
+}
+
+.lkpd-btn-outline:hover {
+  background: #f8fafc;
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+/* --- JOB TABS SELECTOR (6 JOBS) --- */
+.lkpd-job-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed #dce7f4;
+}
+
+.lkpd-job-tab {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  text-align: left;
+}
+
+.lkpd-job-tab:hover {
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.08);
+}
+
+.lkpd-job-tab.active {
+  background: linear-gradient(145deg, #f0f7ff 0%, #e0effe 100%);
+  border-color: #0284c7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.16);
+}
+
+.lkpd-job-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+  color: #0284c7;
+}
+
+.lkpd-job-tab:not(.active) .lkpd-job-badge {
+  color: #64748b;
+}
+
+.lkpd-job-tab.active .lkpd-job-badge {
+  color: #0369a1;
+}
+
+.lkpd-job-tab strong {
+  font-size: 0.88rem;
+  font-weight: 750;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.lkpd-job-tab span.job-status {
+  font-size: 0.72rem;
+  margin-top: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #64748b;
+}
+
+.lkpd-job-tab.active span.job-status {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* --- THE AUTHENTIC A4 LKPD SHEET --- */
+.lkpd-sheet-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.lkpd-sheet {
+  width: 100%;
+  max-width: 860px;
+  background-color: #ffffff;
+  border: 1px solid #c8dcf0;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(15, 37, 69, 0.09), 0 2px 8px rgba(15, 37, 69, 0.04);
+  padding: 2.2rem 2.4rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+  color: #0f2942;
+  font-family: var(--font-main, 'Segoe UI', Arial, sans-serif);
+}
+
+/* Technical watermarks on sheet */
+.lkpd-watermark-grid-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 140px;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.lkpd-watermark-grid-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 140px;
+  height: 90px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --- LKPD HEADER SECTION --- */
+.lkpd-sheet-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 1.25rem;
+}
+
+.lkpd-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.lkpd-top-left {
+  flex: 1 1 58%;
+}
+
+.lkpd-job-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.6rem 0.45rem 1.2rem;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  clip-path: polygon(0 0, 93% 0, 100% 100%, 0 100%);
+  border-radius: 4px 0 0 4px;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+}
+
+.lkpd-sheet-title {
+  font-size: 2.15rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #0b2545;
+  line-height: 1.15;
+  margin: 0.35rem 0 0.4rem;
+  text-transform: uppercase;
+}
+
+.lkpd-sheet-subtitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #3b5a7a;
+  letter-spacing: 0.01em;
+}
+
+.lkpd-top-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.lkpd-motto-callout {
+  text-align: right;
+  transform: rotate(-7deg);
+  margin-right: -0.25rem;
+  margin-top: 0.25rem;
+}
+
+.lkpd-motto-callout span {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 850;
+  color: #0284c7;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.lkpd-isometric-preview {
+  width: 110px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lkpd-brand-col {
+  border-left: 1.5px solid #0284c7;
+  padding-left: 0.85rem;
+  text-align: left;
+}
+
+.lkpd-brand-col strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: #0b2545;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.lkpd-brand-col span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #486581;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  margin-top: 0.25rem;
+}
+
+/* --- STUDENT IDENTITY CARD --- */
+.lkpd-identity-box {
+  background-color: #edf5fc;
+  border: 1.5px solid #cfe0f0;
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-id-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.lkpd-id-label-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+}
+
+.lkpd-id-badge-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 6px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-size: 0.72rem;
+  font-weight: 700;
+  animation: authFadeIn 0.3s ease both;
+}
+
+.lkpd-sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+.lkpd-identity-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  column-gap: 2rem;
+  row-gap: 0.6rem;
+}
+
+.lkpd-id-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+}
+
+.lkpd-id-field svg {
+  width: 18px;
+  height: 18px;
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+.lkpd-id-field label {
+  font-weight: 700;
+  color: #0f2942;
+  min-width: 68px;
+}
+
+.lkpd-id-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dotted #627d98;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0b2545;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.lkpd-id-input:focus {
+  outline: none;
+  border-bottom: 1.5px solid #0284c7;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+/* --- TUJUAN BOX --- */
+.lkpd-tujuan-box {
+  background-color: #eaf3fb;
+  border: 1px solid #d0e3f2;
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-tujuan-icon {
+  width: 24px;
+  height: 24px;
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+.lkpd-tujuan-title {
+  font-weight: 850;
+  font-size: 0.95rem;
+  color: #0b2545;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lkpd-tujuan-title::after {
+  content: "|";
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.lkpd-tujuan-text {
+  font-size: 0.92rem;
+  color: #1e3a5f;
+  font-weight: 550;
+}
+
+/* --- SECTION BADGE WITH EXTENDING RULE --- */
+.lkpd-sub-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-section-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 1.4rem 0.35rem 1rem;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%);
+  border-radius: 4px 0 0 4px;
+  white-space: nowrap;
+}
+
+.lkpd-heading-rule {
+  flex: 1;
+  height: 2px;
+  background: #0284c7;
+  border-radius: 2px;
+}
+
+/* --- ALAT UTAMA SECTION --- */
+.lkpd-tools-wrapper {
+  background: #ffffff;
+  border: 1.5px solid #0284c7;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-bottom: 1.4rem;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.lkpd-tool-card {
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.55rem;
+  border-right: 1px solid #d9e6f2;
+  transition: all 0.2s;
+  background: #ffffff;
+}
+
+.lkpd-tool-card:last-child {
+  border-right: none;
+}
+
+.lkpd-tool-card:hover {
+  background: #f4f9fd;
+}
+
+.lkpd-tool-icon-box {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lkpd-tool-card span {
+  font-size: 0.82rem;
+  font-weight: 750;
+  color: #0f2942;
+  line-height: 1.25;
+}
+
+/* --- AMATI 6 POLA GARIS (THE 6 PATTERN FRAMES) --- */
+.lkpd-patterns-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem 1.4rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-pattern-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.lkpd-pattern-frame {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffffff;
+  border: 2px solid #111827;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.lkpd-pattern-frame:hover {
+  border-color: #0284c7;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.18);
+}
+
+.lkpd-pattern-frame svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lkpd-pattern-label {
+  margin-top: 0.55rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0b2545;
+  letter-spacing: 0.01em;
+}
+
+.lkpd-pattern-badge-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: #0284c7;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+/* --- LOWER COLUMNS: TUGAS SINGKAT & CEK SEBELUM DIKUMPULKAN --- */
+.lkpd-lower-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-col-header {
+  margin-bottom: 0.75rem;
+}
+
+.lkpd-col-header .lkpd-section-badge {
+  font-size: 0.88rem;
+  padding: 0.3rem 1.2rem 0.3rem 0.85rem;
+}
+
+.lkpd-step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0;
+  margin: 0;
+}
+
+.lkpd-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  line-height: 1.4;
+}
+
+.lkpd-step-num {
+  width: 22px;
+  height: 22px;
+  background: #0284c7;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 850;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Checklist items */
+.lkpd-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.lkpd-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  line-height: 1.35;
+}
+
+.lkpd-check-box {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #0b2545;
+  background: #ffffff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.lkpd-check-item input[type="checkbox"] {
+  display: none;
+}
+
+.lkpd-check-item input[type="checkbox"]:checked + .lkpd-check-box {
+  background: #0284c7;
+  border-color: #0284c7;
+}
+
+.lkpd-check-item input[type="checkbox"]:checked + .lkpd-check-box::after {
+  content: "✓";
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.lkpd-check-item input[type="checkbox"]:checked ~ span {
+  color: #0b2545;
+  font-weight: 700;
+}
+
+/* --- EVALUATION & TEACHER FEEDBACK BOX --- */
+.lkpd-eval-box {
+  background-color: #edf5fc;
+  border: 1.5px solid #cfe0f0;
+  border-radius: 12px;
+  padding: 0.85rem 1.4rem;
+  display: grid;
+  grid-template-columns: 1.15fr 1.25fr 2fr;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lkpd-eval-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0b2545;
+}
+
+.lkpd-score-input {
+  width: 55px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dotted #627d98;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 850;
+  color: #0284c7;
+}
+
+.lkpd-score-input:focus {
+  outline: none;
+  border-bottom: 1.5px solid #0284c7;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+.lkpd-paraf-input,
+.lkpd-note-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dotted #627d98;
+  padding: 0.15rem 0.35rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0b2545;
+}
+
+.lkpd-paraf-input:focus,
+.lkpd-note-input:focus {
+  outline: none;
+  border-bottom: 1.5px solid #0284c7;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+/* --- LKPD FOOTER ROW --- */
+.lkpd-sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+  border-top: 1.5px solid #0284c7;
+  padding-top: 0.85rem;
+}
+
+.lkpd-footer-left {
+  font-size: 0.85rem;
+  font-weight: 750;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lkpd-footer-left::after {
+  content: "";
+  display: inline-block;
+  width: 80px;
+  height: 1.5px;
+  background: #0284c7;
+}
+
+.lkpd-footer-center {
+  font-size: 0.95rem;
+  font-weight: 850;
+  color: #0b2545;
+}
+
+.lkpd-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: right;
+}
+
+.lkpd-footer-tag-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.lkpd-footer-tag-copy span {
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  color: #0b2545;
+}
+
+.lkpd-footer-crosshair {
+  width: 38px;
+  height: 38px;
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+/* Angled decorative ribbons at sheet bottom right */
+.lkpd-sheet-ribbons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.lkpd-sheet-ribbons::before {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, transparent 40%, rgba(2, 132, 199, 0.4) 40%, rgba(2, 132, 199, 0.4) 55%, transparent 55%, transparent 65%, #0284c7 65%);
+}
+
+/* --- PREVIEW / COMING SOON VIEW FOR JOBS 2 TO 6 --- */
+.lkpd-coming-soon-card {
+  background: #ffffff;
+  border: 1px solid var(--border-glass, #dce7f4);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(18, 63, 118, 0.06);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.lkpd-cs-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.25rem;
+}
+
+.lkpd-cs-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #e0f2fe;
+  color: #0284c7;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.lkpd-coming-soon-card h3 {
+  font-size: 1.6rem;
+  font-weight: 850;
+  color: #0f2942;
+  margin-bottom: 0.65rem;
+}
+
+.lkpd-coming-soon-card p {
+  color: #536a85;
+  font-size: 0.95rem;
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.lkpd-cs-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.lkpd-cs-feat-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.lkpd-cs-feat-item span.icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.lkpd-cs-feat-item strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #0f2942;
+  margin-bottom: 0.2rem;
+}
+
+.lkpd-cs-feat-item p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.lkpd-cs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* --- PATTERN INSPECTOR MODAL --- */
+.lkpd-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lkpd-modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lkpd-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  max-width: 680px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #e2e8f0;
+}
+
+.lkpd-modal-backdrop.active .lkpd-modal-card {
+  transform: scale(1);
+}
+
+.lkpd-modal-header {
+  background: #f8fafc;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lkpd-modal-header h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f2942;
+  margin: 0;
+}
+
+.lkpd-modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #64748b;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.lkpd-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.lkpd-modal-body {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.lkpd-modal-preview-box {
+  width: 220px;
+  height: 220px;
+  border: 2px solid #111;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.lkpd-modal-preview-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.lkpd-modal-details h5 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0284c7;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.lkpd-modal-details p {
+  font-size: 0.88rem;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 0.85rem;
+}
+
+.lkpd-modal-details ul {
+  padding-left: 1.25rem;
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.lkpd-modal-details ul li {
+  margin-bottom: 0.35rem;
+}
+
+.lkpd-modal-footer {
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+  .lkpd-sheet {
+    padding: 1.4rem 1.2rem;
+  }
+
+  .lkpd-top-row {
+    flex-direction: column;
+  }
+
+  .lkpd-top-right {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #dce7f4;
+  }
+
+  .lkpd-sheet-title {
+    font-size: 1.6rem;
+  }
+
+  .lkpd-identity-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .lkpd-tools-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lkpd-tool-card:nth-child(3) {
+    border-right: none;
+  }
+
+  .lkpd-tool-card:nth-child(4),
+  .lkpd-tool-card:nth-child(5) {
+    border-top: 1px solid #d9e6f2;
+  }
+
+  .lkpd-patterns-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lkpd-lower-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .lkpd-eval-box {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .lkpd-modal-body {
+    grid-template-columns: 1fr;
+  }
+
+  .lkpd-modal-preview-box {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .lkpd-patterns-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   PRINT OPTIMIZATION (A4 PORTRAIT SPECIFICATION)
+   Hides chrome/sidebar and renders pure white worksheet
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* Hide app framework */
+  .sidebar,
+  .sidebar-scrim,
+  .top-header,
+  .lkpd-header-banner,
+  .lkpd-actions-toolbar,
+  .lkpd-job-nav,
+  .hub-hero,
+  .hub-grid,
+  .draftlab-toast,
+  .certificate-modal,
+  .lkpd-modal-backdrop,
+  .lkpd-badge-hint,
+  .lkpd-id-badge-sync,
+  .app-section:not(#lkpd) {
+    display: none !important;
+  }
+
+  .app-container {
+    display: block !important;
+  }
+
+  .content-area {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #lkpd {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .lkpd-sheet-wrapper {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lkpd-sheet {
+    max-width: 100% !important;
+    width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    page-break-after: avoid !important;
+  }
+
+  .lkpd-id-input,
+  .lkpd-score-input,
+  .lkpd-paraf-input,
+  .lkpd-note-input {
+    border-bottom: 1px dotted #000000 !important;
+  }
+
+  .lkpd-pattern-frame {
+    border: 2px solid #000000 !important;
+  }
+
+  .lkpd-tool-card {
+    background: #ffffff !important;
+  }
+}

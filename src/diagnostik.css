@@ -1,0 +1,1131 @@
+/* ==========================================================================
+   DRAFT-LAB — TES DIAGNOSTIK AWAL & STUDENT ENGAGEMENT STYLES
+   Tampilan Interaktif CBT, Ruang Sketsa Digital, Angket, & Kunci Akses Web
+   ========================================================================== */
+
+/* --- LOCK SYSTEM STYLES (SIDEBAR & MODULES) --- */
+.nav-item.is-locked {
+  opacity: 0.55;
+  cursor: not-allowed !important;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.nav-item.is-locked:hover {
+  background: rgba(229, 72, 77, 0.08) !important;
+  border-color: rgba(229, 72, 77, 0.2) !important;
+}
+
+.nav-lock-badge {
+  margin-left: auto;
+  font-size: 0.85rem;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-badge-required {
+  margin-left: auto;
+  background: linear-gradient(135deg, #e5484d, #d13438);
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  animation: pulseRequired 2s infinite ease-in-out;
+  box-shadow: 0 2px 8px rgba(229, 72, 77, 0.35);
+}
+
+@keyframes pulseRequired {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+/* Floating Lock Banner Notification */
+.web-locked-banner {
+  background: linear-gradient(90deg, #1e293b, #0f172a);
+  border-bottom: 2px solid #2567b9;
+  color: #f8fafc;
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.84rem;
+  position: sticky;
+  top: 0;
+  z-index: 95;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.web-locked-banner .banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.web-locked-banner .banner-icon {
+  font-size: 1.1rem;
+}
+
+.web-locked-banner .banner-tag {
+  background: #2567b9;
+  color: #ffffff;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* --- MAIN DIAGNOSTIC CONTAINER --- */
+.diag-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem 1.25rem;
+}
+
+/* Diagnostic Hero Header */
+.diag-hero-card {
+  background: linear-gradient(135deg, #ffffff 0%, #edf4fc 100%);
+  border: 1px solid #dce7f4;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(18, 63, 118, 0.06);
+}
+
+.diag-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #2567b9, #16a36a);
+}
+
+.diag-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2567b9;
+  text-transform: uppercase;
+}
+
+.diag-hero-title {
+  color: #123f76;
+  font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+}
+
+.diag-hero-meta {
+  color: #536a85;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.diag-hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Notice Box */
+.diag-notice-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: #166534;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.diag-notice-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Student Identity Card */
+.diag-student-card {
+  background: #ffffff;
+  border: 1px solid #dce7f4;
+  border-radius: 12px;
+  padding: 1.1rem 1.5rem;
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: center;
+}
+
+.diag-student-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.diag-student-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #7c8fa7;
+  letter-spacing: 0.05em;
+}
+
+.diag-student-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #12263f;
+}
+
+.diag-student-input {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #12263f;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 0.4rem 0.65rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.diag-student-input:focus {
+  border-color: #2567b9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 103, 185, 0.15);
+}
+
+/* --- CBT NAVIGATION & PROGRESS BAR --- */
+.diag-cbt-toolbar {
+  background: #ffffff;
+  border: 1px solid #dce7f4;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(18, 63, 118, 0.04);
+  position: sticky;
+  top: 1rem;
+  z-index: 90;
+}
+
+.diag-toolbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.diag-progress-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.diag-progress-badge {
+  background: #edf4fc;
+  color: #2567b9;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #dce7f4;
+}
+
+.diag-progress-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #536a85;
+}
+
+.diag-autosave-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
+  color: #16a36a;
+  font-weight: 600;
+}
+
+.diag-autosave-dot {
+  width: 7px;
+  height: 7px;
+  background: #16a36a;
+  border-radius: 50%;
+  animation: pulseDot 1.8s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Progress Track */
+.diag-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.diag-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2567b9, #16a36a);
+  border-radius: 99px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Question Navigator Pills */
+.diag-nav-grid {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+}
+
+.diag-nav-btn {
+  min-width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.84rem;
+  font-weight: 700;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0 0.4rem;
+  flex-shrink: 0;
+}
+
+.diag-nav-btn:hover {
+  border-color: #2567b9;
+  color: #2567b9;
+  transform: translateY(-1px);
+}
+
+.diag-nav-btn.active {
+  background: #2567b9 !important;
+  border-color: #2567b9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(37, 103, 185, 0.35);
+}
+
+.diag-nav-btn.answered {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.diag-nav-btn.answered::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: #16a36a;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.diag-nav-btn.is-angket {
+  min-width: 82px;
+  font-size: 0.75rem;
+}
+
+/* --- SECTION TABS (BAGIAN 1 - 5) --- */
+.diag-section-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.diag-sec-tab {
+  padding: 0.55rem 1rem;
+  background: #ffffff;
+  border: 1px solid #dce7f4;
+  border-radius: 10px;
+  color: #536a85;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.diag-sec-tab:hover {
+  background: #edf4fc;
+  color: #123f76;
+}
+
+.diag-sec-tab.active {
+  background: #123f76;
+  border-color: #123f76;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(18, 63, 118, 0.2);
+}
+
+.diag-sec-tab-badge {
+  font-size: 0.68rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+/* --- QUESTION CARDS --- */
+.diag-section-card {
+  background: #ffffff;
+  border: 1px solid #dce7f4;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(18, 63, 118, 0.05);
+  display: none;
+}
+
+.diag-section-card.active {
+  display: block;
+  animation: fadeInSec 0.3s ease-in-out;
+}
+
+@keyframes fadeInSec {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.diag-sec-header {
+  border-bottom: 1.5px solid #edf4fc;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.diag-sec-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.diag-sec-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #123f76;
+}
+
+.diag-sec-badge {
+  background: #edf4fc;
+  border: 1px solid #dce7f4;
+  color: #2567b9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+.diag-sec-desc {
+  font-size: 0.88rem;
+  color: #536a85;
+  line-height: 1.55;
+}
+
+/* Individual Question Item */
+.diag-q-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.diag-q-item:focus-within,
+.diag-q-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 18px rgba(18, 63, 118, 0.06);
+}
+
+.diag-q-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.diag-q-number-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #edf4fc;
+  border: 1px solid #dce7f4;
+  color: #2567b9;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+}
+
+.diag-q-points {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+
+.diag-q-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+/* Context Callout Box (Case scenarios) */
+.diag-case-box {
+  background: #f8fafc;
+  border-left: 4px solid #2567b9;
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.92rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.diag-case-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #2567b9;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+/* Prompt Hint Box */
+.diag-hint-box {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #92400e;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Multiple Choice Options Grid */
+.diag-mcq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.diag-mcq-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.85rem 1.15rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.diag-mcq-opt:hover {
+  background: #ffffff;
+  border-color: #2567b9;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(37, 103, 185, 0.08);
+}
+
+.diag-mcq-opt.selected {
+  background: #f0fdf4 !important;
+  border-color: #16a36a !important;
+  color: #166534;
+  box-shadow: 0 3px 12px rgba(22, 163, 106, 0.15);
+}
+
+.diag-mcq-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  background: #ffffff;
+}
+
+.diag-mcq-opt.selected .diag-mcq-radio {
+  border-color: #16a36a;
+  background: #16a36a;
+}
+
+.diag-mcq-opt.selected .diag-mcq-radio::after {
+  content: '✓';
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.diag-mcq-letter {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: #475569;
+  min-width: 20px;
+}
+
+.diag-mcq-opt.selected .diag-mcq-letter {
+  color: #166534;
+}
+
+.diag-mcq-text {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: inherit;
+  line-height: 1.45;
+}
+
+/* Essay Textarea */
+.diag-textarea {
+  width: 100%;
+  min-height: 110px;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: #1e293b;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.diag-textarea:focus {
+  border-color: #2567b9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 103, 185, 0.15);
+}
+
+/* Quick Response Buttons (Ya/Tidak for Soal 6) */
+.diag-quick-toggle {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.diag-toggle-btn {
+  padding: 0.6rem 1.25rem;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.diag-toggle-btn:hover {
+  border-color: #2567b9;
+  color: #2567b9;
+}
+
+.diag-toggle-btn.selected {
+  background: #2567b9;
+  border-color: #2567b9;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(37, 103, 185, 0.25);
+}
+
+/* Multi-inputs for Soal 7 & Soal 9 (Numbered items) */
+.diag-numbered-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diag-num-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.diag-num-badge {
+  width: 28px;
+  height: 28px;
+  background: #edf4fc;
+  border: 1px solid #dce7f4;
+  color: #2567b9;
+  font-weight: 800;
+  font-size: 0.82rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.diag-num-input {
+  flex: 1;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.9rem;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.diag-num-input:focus {
+  border-color: #2567b9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 103, 185, 0.12);
+}
+
+/* --- INTERACTIVE DIGITAL SKETCHPAD (RUANG SKETSA) --- */
+.diag-sketch-arena {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.diag-sketch-toolbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.diag-tool-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.diag-tool-btn {
+  padding: 0.4rem 0.65rem;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s;
+}
+
+.diag-tool-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.diag-tool-btn.active {
+  background: #2567b9;
+  border-color: #2567b9;
+  color: #ffffff;
+}
+
+.diag-color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1.5px #cbd5e1;
+  transition: all 0.2s;
+}
+
+.diag-color-dot.active {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px #2567b9;
+}
+
+.diag-canvas-wrapper {
+  position: relative;
+  background: #ffffff;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.diag-canvas {
+  display: block;
+  width: 100%;
+  height: 380px;
+  background-color: #ffffff;
+  background-image: 
+    linear-gradient(#f1f5f9 1px, transparent 1px),
+    linear-gradient(90deg, #f1f5f9 1px, transparent 1px),
+    linear-gradient(#e2e8f0 1px, transparent 1px),
+    linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+  cursor: crosshair;
+}
+
+.diag-canvas.hide-grid {
+  background-image: none !important;
+}
+
+.diag-canvas-tip {
+  padding: 0.5rem 0.85rem;
+  background: #f1f5f9;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.75rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Upload Alternative */
+.diag-upload-box {
+  background: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 0.75rem;
+  font-size: 0.82rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* --- STUDENT ENGAGEMENT LIKERT MATRIX --- */
+.diag-likert-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.diag-likert-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+  transition: all 0.2s;
+}
+
+.diag-likert-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 3px 12px rgba(18, 63, 118, 0.05);
+}
+
+.diag-likert-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.55;
+  margin-bottom: 0.85rem;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.diag-likert-num {
+  font-weight: 800;
+  color: #2567b9;
+}
+
+.diag-likert-scale {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .diag-likert-scale {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.diag-scale-pill {
+  padding: 0.6rem 0.5rem;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.diag-scale-pill:hover {
+  background: #ffffff;
+  border-color: #2567b9;
+  color: #2567b9;
+}
+
+.diag-scale-pill.selected {
+  background: #2567b9 !important;
+  border-color: #2567b9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(37, 103, 185, 0.25);
+  font-weight: 700;
+}
+
+/* --- BOTTOM CONTROLS & SUBMIT --- */
+.diag-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.diag-btn-prev,
+.diag-btn-next {
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.diag-btn-prev {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #475569;
+}
+
+.diag-btn-prev:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.diag-btn-next {
+  background: #2567b9;
+  border: 1.5px solid #2567b9;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 103, 185, 0.25);
+}
+
+.diag-btn-next:hover {
+  background: #1c5296;
+  border-color: #1c5296;
+}
+
+.diag-btn-submit {
+  padding: 0.85rem 2rem;
+  background: linear-gradient(135deg, #16a36a, #059669);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 6px 18px rgba(22, 163, 106, 0.3);
+  transition: all 0.2s;
+}
+
+.diag-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(22, 163, 106, 0.4);
+}
+
+/* --- RESULT & CERTIFICATE SCREEN --- */
+.diag-result-card {
+  background: #ffffff;
+  border: 1px solid #dce7f4;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(18, 63, 118, 0.08);
+  display: none;
+}
+
+.diag-result-card.active {
+  display: block;
+  animation: fadeInSec 0.4s ease-in-out;
+}
+
+.diag-result-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.diag-result-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #123f76;
+  margin-bottom: 0.5rem;
+}
+
+.diag-result-desc {
+  font-size: 0.96rem;
+  color: #536a85;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+}
+
+.diag-score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  max-width: 780px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.diag-score-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.diag-score-box.highlight {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.diag-score-box-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.diag-score-box-num {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #123f76;
+}
+
+.diag-score-box.highlight .diag-score-box-num {
+  color: #16a36a;
+}
+
+.diag-result-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Print View Adjustments */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .sidebar,
+  .top-header,
+  .web-locked-banner,
+  .diag-cbt-toolbar,
+  .diag-bottom-bar,
+  .diag-result-actions,
+  .diag-sketch-toolbar,
+  .diag-upload-box,
+  .blueprint-bg {
+    display: none !important;
+  }
+  .app-container {
+    display: block !important;
+    padding: 0 !important;
+  }
+  .content-area {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .diag-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .diag-section-card {
+    display: block !important;
+    border: 1px solid #94a3b8 !important;
+    page-break-after: always;
+    box-shadow: none !important;
+  }
+  .diag-result-card {
+    display: block !important;
+    border: 1px solid #94a3b8 !important;
+    box-shadow: none !important;
+  }
+}
