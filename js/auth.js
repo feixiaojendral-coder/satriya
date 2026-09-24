@@ -15,12 +15,12 @@ const SCRIPT_URL_STORAGE_KEY = 'draftlab_sheets_url';
 import { renderDiagnostikRekapTable, exportDiagnostikToCsv, getLockMode, setLockMode } from './diagnostik.js';
 import { renderPostTestRekapTable, exportPostTestToCsv } from './post-test.js';
 
-// Default Google Apps Script URL
-export const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFJaCScOY49jSX0mfliQJXBAatbN6mUGhoAqDlDcbxoiD6Jxj38jzcBb3wzwQp4IQ/exec';
+// Default SheetDB / Google Apps Script URL
+export const DEFAULT_SCRIPT_URL = 'https://sheetdb.io/api/v1/dsn6t93x0uhsr';
 
 export function getScriptUrl() {
   const saved = localStorage.getItem(SCRIPT_URL_STORAGE_KEY);
-  if (saved && !saved.includes('GANTI_DENGAN_URL')) {
+  if (saved && !saved.includes('GANTI_DENGAN_URL') && !saved.includes('macros/s/AKfycbwFJaCScOY49jSX0mfliQJXBAatbN6mUGhoAqDlDcbxoiD6Jxj38jzcBb3wzwQp4IQ')) {
     return saved;
   }
   return DEFAULT_SCRIPT_URL;
@@ -138,6 +138,32 @@ export async function sendLoginToSpreadsheet(data) {
   if (!scriptUrl || scriptUrl.includes('GANTI_DENGAN_URL')) {
     console.info('[Google Sheets] URL Apps Script belum dikonfigurasi. Data tersimpan aman di Rekap Browser.');
     return { success: true, localOnly: true };
+  }
+
+  if (scriptUrl.includes('sheetdb.io')) {
+    try {
+      await fetch(scriptUrl, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: [{
+            'No': 'INCREMENT',
+            'Waktu_Login': new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+            'Nama_Lengkap': data.nama,
+            'No_Absen': data.absen,
+            'Kelas': data.kelas,
+            'Perangkat': navigator.userAgent
+          }]
+        })
+      });
+      return { success: true };
+    } catch (e) {
+      console.warn('[SheetDB Login Sync] Gagal mengirim:', e);
+      return { success: false, error: e };
+    }
   }
 
   const payload = {

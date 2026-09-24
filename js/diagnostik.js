@@ -268,6 +268,43 @@ export async function sendDiagnostikToSpreadsheet(submissionData) {
     return { success: true, localOnly: true };
   }
 
+  if (scriptUrl.includes('sheetdb.io')) {
+    const diagRow = {
+      'No': 'INCREMENT',
+      'ID Tiket': submissionData.id,
+      'Waktu Serah (WIB)': submissionData.waktu,
+      'Nama Siswa': submissionData.student.nama,
+      'No. Absen': submissionData.student.absen,
+      'Kelas': submissionData.student.kelas,
+      'Skor PG (25)': submissionData.scores.mcqScore,
+      'Uraian Selesai (4)': `${submissionData.scores.essayAnsweredCount}/4`,
+      'Soal 1': submissionData.answers.q1 || '-',
+      'Soal 2': submissionData.answers.q2 || '-',
+      'Soal 3': submissionData.answers.q3 || '-',
+      'Soal 4': submissionData.answers.q4 || '-',
+      'Soal 5': submissionData.answers.q5 || '-',
+      'Pilihan Soal 6': submissionData.answers.q6_choice || '-',
+      'Alasan Soal 6': submissionData.answers.q6_reason || '-',
+      'Informasi Soal 7': (submissionData.answers.q7_info || []).join('; ') || '-',
+      'Dampak Soal 8': submissionData.answers.q8_impact || '-',
+      'Uraian Kritis Soal 9': submissionData.answers.q9_critical || '-'
+    };
+    try {
+      await fetch(scriptUrl, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: [diagRow] })
+      });
+      return { success: true };
+    } catch (e) {
+      console.warn('[Diagnostik SheetDB] Gagal mengirim:', e);
+      return { success: false, error: e };
+    }
+  }
+
   const payload = {
     action: 'diagnostik',
     id: submissionData.id,

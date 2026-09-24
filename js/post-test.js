@@ -614,6 +614,76 @@ async function sendPostTestToSpreadsheet(record) {
     return;
   }
 
+  if (scriptUrl.includes('sheetdb.io')) {
+    const row = {
+      'No': 'INCREMENT',
+      'ID Tiket': record.id,
+      'Waktu Selesai (WIB)': record.waktu,
+      'Nama Lengkap Siswa': record.student.nama,
+      'No. Absen': record.student.absen,
+      'Kelas': record.student.kelas,
+      'Skor PG (60)': record.scores.mcqScore,
+      'Benar PG (20)': `${Math.round(record.scores.mcqScore / 3)} / 20`,
+      'Esai Terisi (15)': `${record.scores.essayAnsweredCount} / 15`,
+      'Nilai Esai Guru (40)': '',
+      'TOTAL NILAI (100)': record.scores.estimatedTotalScore,
+      'Predikat Kelulusan': record.scores.mcqScore >= 50 ? 'KOMPETEN (B) ✅' : 'CUKUP (C) ⚠️',
+      'Catatan CBT': record.violations ? `⚠️ ${record.violations}x Pindah Tab` : 'Tertib (0x)'
+    };
+
+    // Columns PG 1-20
+    for (let i = 1; i <= 20; i++) {
+      const key = POST_TEST_MCQ_KEYS[i];
+      const userAns = (record.answers.mcq && record.answers.mcq[i]) ? record.answers.mcq[i] : '-';
+      const colName = `PG ${i} (K: ${key})`;
+      if (userAns === '-') {
+        row[colName] = '-';
+      } else if (userAns === key) {
+        row[colName] = `${userAns} ✅`;
+      } else {
+        row[colName] = `${userAns} ❌ (K: ${key})`;
+      }
+    }
+
+    // Columns Esai 21-35
+    const essayCols = [
+      'Esai 21: Fungsi Standar ISO',
+      'Esai 22: Alasan Standardisasi Internasional',
+      'Esai 23: Gambar Sebagai Bahasa Teknik & Acuan',
+      'Esai 24: Manfaat Gambar Sebelum Mesin',
+      'Esai 25: 5 Sikap Kerja Profesional Gambar',
+      'Esai 26: Alur Ide Desain ke Benda Nyata',
+      'Esai 27: Menjaga Kebersihan Alat & Kertas',
+      'Esai 28: Karakteristik Pensil H vs 2B',
+      'Esai 29: 6 Alat Gambar Teknik & Fungsinya',
+      'Esai 30: Alat & Bahan yang Harus Disiapkan',
+      'Esai 31: Fungsi Etiket & Sudut Kanan Bawah',
+      'Esai 32: 5 Informasi Wajib Dalam Etiket',
+      'Esai 33: Arti Skala 1:1, 1:2, dan 2:1',
+      'Esai 34: Ukuran Kertas A0 s.d. A4 (mm)',
+      'Esai 35: Hubungan Seri A & Hasil A3 Dibagi 2'
+    ];
+    for (let j = 0; j < essayCols.length; j++) {
+      const qNum = 21 + j;
+      row[essayCols[j]] = (record.answers.essay && record.answers.essay[qNum]) ? record.answers.essay[qNum] : '-';
+    }
+
+    try {
+      await fetch(scriptUrl, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: [row] })
+      });
+      console.info('[Post-Test SheetDB] Berhasil disimpan di Spreadsheet!');
+    } catch (err) {
+      console.warn('[Post-Test SheetDB] Gagal mengirim:', err);
+    }
+    return;
+  }
+
   // Format flattened answers for spreadsheet columns
   const payload = {
     action: 'posttest',
