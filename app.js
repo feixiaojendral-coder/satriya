@@ -398,18 +398,18 @@ document.addEventListener('DOMContentLoaded', () => {
       item.addEventListener('click', () => {
         const target = item.getAttribute('data-target');
         
-        // Lock check: if web is locked, allow ONLY diagnostik (Post-Test & materi lainnya terkunci)
-        if (target !== 'diagnostik' && isWebLocked()) {
+        // Lock check: if web is locked, allow ONLY quiz (Post-Test)
+        if (target !== 'quiz' && isWebLocked()) {
           if (window.showDraftlabToast) {
             window.showDraftlabToast(
-              target === 'quiz' ? "Tes Pemahaman Terkunci" : "Modul Terkunci (Pertemuan 1)",
-              target === 'quiz'
-                ? "Modul Tes Pemahaman (Post-Test) saat ini masih dikunci dan akan dibuka oleh guru setelah kegiatan pembelajaran selesai."
-                : "Khusus tahap ini, hanya instrumen Tes Diagnostik Awal yang dapat diakses.",
+              target === 'diagnostik' ? "Tes Diagnostik Selesai" : "Modul Terkunci (Pertemuan 1)",
+              target === 'diagnostik'
+                ? "Tahap Tes Diagnostik Awal telah selesai dan saat ini dikunci. Silakan fokus mengerjakan modul Tes Pemahaman (Post-Test)."
+                : "Khusus tahap ini, hanya modul Tes Pemahaman (Post-Test) yang dapat diakses.",
               "🔒"
             );
           } else {
-            alert(target === 'quiz' ? "🔒 Tes Pemahaman (Post-Test) masih dikunci guru." : "🔒 Modul ini dikunci guru.");
+            alert(target === 'diagnostik' ? "🔒 Tes Diagnostik Awal telah selesai dan dikunci." : "🔒 Modul ini dikunci guru.");
           }
           return;
         }
@@ -470,21 +470,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Initial State on Page Load: If locked, activate diagnostik
+    // Initial State on Page Load: If locked, activate quiz (Post-Test)
     if (isWebLocked()) {
-      state.activeTab = 'diagnostik';
-      const diagNav = document.querySelector('.nav-item[data-target="diagnostik"]');
-      if (diagNav) {
+      state.activeTab = 'quiz';
+      const quizNav = document.querySelector('.nav-item[data-target="quiz"]');
+      if (quizNav) {
         navItems.forEach(nav => nav.classList.remove('active'));
-        diagNav.classList.add('active');
+        quizNav.classList.add('active');
       }
       sections.forEach(sec => sec.classList.remove('active'));
-      const diagSec = document.getElementById('diagnostik');
-      if (diagSec) {
-        diagSec.classList.add('active');
+      const quizSec = document.getElementById('quiz');
+      if (quizSec) {
+        quizSec.classList.add('active');
       }
       if (pageTitle) {
-        pageTitle.textContent = "Tes Diagnostik Awal — Gambar Teknik Manual";
+        pageTitle.textContent = "Tes Pemahaman — Post-Test Gambar Teknik";
       }
     }
   };
