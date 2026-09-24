@@ -325,6 +325,36 @@ export const POST_TEST_DATA = {
       q: 'Tuliskan alat dan bahan minimal yang perlu kalian siapkan untuk pertemuan gambar teknik berikutnya.',
       guide: 'Sebutkan kelengkapan mandiri yang wajib dibawa ke ruang gambar.',
       sampleAnswer: 'Kertas gambar (A4/A3), pensil gambar grade H dan 2B, penghapus pensil lembut, penggaris lurus, sepasang penggaris segitiga (45° dan 30°/60°), jangka gambar, dan rautan pensil berwadah.'
+    },
+    {
+      no: 31,
+      q: 'Jelaskan fungsi etiket pada gambar teknik dan mengapa etiket biasanya ditempatkan di sudut kanan bawah lembar gambar.',
+      guide: 'Jelaskan fungsi etiket sebagai identitas resmi gambar dan alasan penempatannya di sudut kanan bawah (kemudahan membaca saat lembaran dilipat/diarsipkan).',
+      sampleAnswer: 'Fungsi etiket (kepala gambar) adalah memuat seluruh identitas resmi dan informasi penting gambar kerja (judul, skala, instansi, pembuat, tanggal, dsb). Ditempatkan di sudut kanan bawah agar informasi identitas gambar tetap terlihat langsung di halaman depan saat lembar gambar dilipat atau diarsipkan dalam map binder.'
+    },
+    {
+      no: 32,
+      q: 'Sebutkan minimal 5 informasi yang biasanya dicantumkan di dalam etiket gambar teknik.',
+      guide: 'Sebutkan 5 elemen informasi (contoh: judul gambar, nama instansi/sekolah, skala, nama pembuat, tanggal, nomor gambar, ukuran kertas, proyeksi).',
+      sampleAnswer: '1) Judul gambar kerja, 2) Nama instansi / sekolah, 3) Nama juru gambar / pembuat, 4) Skala gambar, 5) Tanggal pembuatan / pemeriksaan, 6) Nomor lembar gambar / ukuran kertas, 7) Simbol proyeksi sudut (Eropa/Amerika).'
+    },
+    {
+      no: 33,
+      q: 'Pada etiket terdapat kolom skala. Jelaskan arti skala 1 : 1, 1 : 2, dan 2 : 1.',
+      guide: 'Jelaskan mana yang merupakan skala penuh (nyata), skala pengecilan, dan skala pembesaran beserta perbandingannya.',
+      sampleAnswer: '1) Skala 1 : 1 (Skala Nyata/Penuh): ukuran gambar pada kertas sama persis dengan ukuran benda sebenarnya. 2) Skala 1 : 2 (Skala Pengecilan): ukuran gambar dibuat setengah kali (2 kali lebih kecil) dari benda sebenarnya. 3) Skala 2 : 1 (Skala Pembesaran): ukuran gambar dibuat dua kali lebih besar dari benda sebenarnya.'
+    },
+    {
+      no: 34,
+      q: 'Tuliskan ukuran kertas A0, A1, A2, A3, dan A4 dalam satuan milimeter (mm).',
+      guide: 'Tuliskan dimensi lebar x panjang standar ISO seri A (A0 sampai A4) dalam mm.',
+      sampleAnswer: '• A0 = 841 × 1189 mm\n• A1 = 594 × 841 mm\n• A2 = 420 × 594 mm\n• A3 = 297 × 420 mm\n• A4 = 210 × 297 mm'
+    },
+    {
+      no: 35,
+      q: 'Jelaskan hubungan ukuran kertas seri A dari A0 sampai A4. Jika satu lembar A3 dibagi dua pada sisi terpanjang, akan menjadi ukuran kertas apa?',
+      guide: 'Jelaskan perbandingan luas dan rasio 1:√2, serta hasil pembagian kertas A3.',
+      sampleAnswer: 'Hubungan seri A memiliki rasio aspek 1 : √2 (1 : 1,414) dan luas setiap ukuran adalah separuh (setengah) dari ukuran nomor sebelumnya. Jika satu lembar kertas A3 (297 × 420 mm) dibagi dua tepat pada sisi terpanjangnya (420 mm), maka akan menghasilkan dua lembar kertas berukuran A4 (210 × 297 mm).'
     }
   ]
 };
@@ -413,9 +443,9 @@ export function calculatePostTestScore() {
     mcqTotalQuestions: 20,
     mcqMaxScore: 60,
     essayAnsweredCount,
-    essayTotalQuestions: 10,
+    essayTotalQuestions: 15,
     essayMaxScore: 40,
-    estimatedTotalScore: mcqScore + Math.round((essayAnsweredCount / 10) * 40)
+    estimatedTotalScore: mcqScore + Math.round((essayAnsweredCount / 15) * 40)
   };
 }
 
@@ -426,7 +456,7 @@ function updatePostTestProgressUI() {
   const mcqAnsweredCount = Object.keys(postTestState.answers.mcq).filter(k => postTestState.answers.mcq[k]).length;
   const essayAnsweredCount = Object.keys(postTestState.answers.essay).filter(k => (postTestState.answers.essay[k] || '').trim().length > 3).length;
   const totalAnswered = mcqAnsweredCount + essayAnsweredCount;
-  const totalQuestions = 30;
+  const totalQuestions = 35;
   const percentage = Math.round((totalAnswered / totalQuestions) * 100);
 
   // Update Counters in Action Bar & CBT Toolbar
@@ -445,8 +475,8 @@ function updatePostTestProgressUI() {
   }
 
   if (essayCounter) {
-    essayCounter.textContent = `${essayAnsweredCount} / 10`;
-    if (essayAnsweredCount === 10) essayCounter.classList.add('complete');
+    essayCounter.textContent = `${essayAnsweredCount} / 15`;
+    if (essayAnsweredCount === 15) essayCounter.classList.add('complete');
     else essayCounter.classList.remove('complete');
   }
 
@@ -526,7 +556,7 @@ export async function submitPostTest(isForced = false, forceReason = '') {
     kelas: session.kelas || postTestState.student.kelas || 'X T. Pemesinan'
   };
 
-  const unansweredActual = (20 - Object.keys(postTestState.answers.mcq).length) + (10 - scores.essayAnsweredCount);
+  const unansweredActual = (20 - Object.keys(postTestState.answers.mcq).length) + (15 - scores.essayAnsweredCount);
 
   if (!isForced && unansweredActual > 0) {
     const proceed = confirm(`Peringatan: Ada ${unansweredActual} soal yang belum Anda isi.\n\nApakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban sekarang?`);
@@ -596,7 +626,7 @@ async function sendPostTestToSpreadsheet(record) {
     mcqScore: record.scores.mcqScore,
     mcqScoreFormatted: `${record.scores.mcqScore}/60`,
     essayAnsweredCount: record.scores.essayAnsweredCount,
-    essayCountFormatted: `${record.scores.essayAnsweredCount}/10`,
+    essayCountFormatted: `${record.scores.essayAnsweredCount}/15`,
     estimatedScore: record.scores.estimatedTotalScore,
     pelanggaranTab: record.violations || 0,
     statusPengerjaan: record.isForced ? `DISUBMIT OTOMATIS (${record.forceReason})` : 'Selesai Mandiri',
@@ -621,7 +651,7 @@ async function sendPostTestToSpreadsheet(record) {
     q18: record.answers.mcq[18] || '-',
     q19: record.answers.mcq[19] || '-',
     q20: record.answers.mcq[20] || '-',
-    // Essay answers 21-30
+    // Essay answers 21-35
     q21: record.answers.essay[21] || '-',
     q22: record.answers.essay[22] || '-',
     q23: record.answers.essay[23] || '-',
@@ -631,7 +661,12 @@ async function sendPostTestToSpreadsheet(record) {
     q27: record.answers.essay[27] || '-',
     q28: record.answers.essay[28] || '-',
     q29: record.answers.essay[29] || '-',
-    q30: record.answers.essay[30] || '-'
+    q30: record.answers.essay[30] || '-',
+    q31: record.answers.essay[31] || '-',
+    q32: record.answers.essay[32] || '-',
+    q33: record.answers.essay[33] || '-',
+    q34: record.answers.essay[34] || '-',
+    q35: record.answers.essay[35] || '-'
   };
 
   try {
@@ -669,7 +704,7 @@ function showPostTestResultCard(record) {
     if (idEl) idEl.textContent = record.id;
     if (studentEl) studentEl.textContent = `${record.student.nama} (${record.student.kelas} • Absen: ${record.student.absen})`;
     if (mcqScoreEl) mcqScoreEl.textContent = `${record.scores.mcqScore} / 60`;
-    if (essayCountEl) essayCountEl.textContent = `${record.scores.essayAnsweredCount} / 10 Soal`;
+    if (essayCountEl) essayCountEl.textContent = `${record.scores.essayAnsweredCount} / 15 Soal`;
     if (timeEl) timeEl.textContent = record.waktu;
 
     // Predicate
@@ -803,7 +838,7 @@ export function renderPostTestRekapTable() {
       <td>${escapeHtml(sub.student.absen)}</td>
       <td><span class="rekap-class-pill">${escapeHtml(sub.student.kelas)}</span></td>
       <td><span style="font-weight: 800; color: #16a36a;">${sub.scores.mcqScore}/60</span></td>
-      <td><span style="font-weight: 700; color: #2567b9;">${sub.scores.essayAnsweredCount}/10 Esai</span></td>
+      <td><span style="font-weight: 700; color: #2567b9;">${sub.scores.essayAnsweredCount}/15 Esai</span></td>
       <td style="color: #64748b; font-size: 0.76rem;">${escapeHtml(sub.waktu)}</td>
     </tr>
   `).join('');
@@ -828,9 +863,9 @@ export function exportPostTestToCsv() {
 
   let csv = '\uFEFF';
   // Header Columns
-  csv += 'No,ID Tiket,Waktu Selesai,Nama Siswa,No. Absen,Kelas,Skor PG (60),Esai Terisi (10)';
+  csv += 'No,ID Tiket,Waktu Selesai,Nama Siswa,No. Absen,Kelas,Skor PG (60),Esai Terisi (15),Pelanggaran Tab';
   for (let i = 1; i <= 20; i++) csv += `,PG Soal ${i}`;
-  for (let j = 21; j <= 30; j++) csv += `,Esai Soal ${j}`;
+  for (let j = 21; j <= 35; j++) csv += `,Esai Soal ${j}`;
   csv += '\r\n';
 
   submissions.forEach((item, idx) => {
@@ -846,7 +881,8 @@ export function exportPostTestToCsv() {
       `"${(s.absen || '').replace(/"/g, '""')}"`,
       `"${(s.kelas || '').replace(/"/g, '""')}"`,
       sc.mcqScore,
-      `${sc.essayAnsweredCount}/10`
+      `${sc.essayAnsweredCount}/15`,
+      item.violations || 0
     ];
 
     // PG 1-20
@@ -854,8 +890,8 @@ export function exportPostTestToCsv() {
       row.push(a.mcq ? (a.mcq[i] || '-') : '-');
     }
 
-    // Esai 21-30
-    for (let j = 21; j <= 30; j++) {
+    // Esai 21-35
+    for (let j = 21; j <= 35; j++) {
       const text = a.essay ? (a.essay[j] || '-') : '-';
       row.push(`"${text.replace(/"/g, '""')}"`);
     }
@@ -952,8 +988,8 @@ export function initPostTest() {
     });
   }
 
-  // 4. Wire Essay Textareas (21 - 30)
-  for (let j = 21; j <= 30; j++) {
+  // 4. Wire Essay Textareas (21 - 35)
+  for (let j = 21; j <= 35; j++) {
     const textarea = document.getElementById(`posttest-essay-q${j}`);
     const charCounter = document.getElementById(`posttest-char-count-q${j}`);
     if (textarea) {
