@@ -17,7 +17,8 @@ export const cbtState = {
   wakeLock: null,
   lastViolationTime: 0,
   onAutoSubmitCallback: null,
-  isSubmitted: false
+  isSubmitted: false,
+  examStarted: false
 };
 
 /**
@@ -142,6 +143,73 @@ export function updateViolationUI() {
 }
 
 /**
+ * Show Mandatory CBT Screen Lock Gate Overlay
+ * @param {'start' | 'relock'} mode
+ */
+export function showMandatoryGate(mode = 'start') {
+  const gate = document.getElementById('cbt-mandatory-gate');
+  const formView = document.getElementById('posttest-form-view');
+  if (!gate) return;
+
+  const header = document.getElementById('cbt-gate-header');
+  const badge = document.getElementById('cbt-gate-badge');
+  const title = document.getElementById('cbt-gate-title');
+  const subtitle = document.getElementById('cbt-gate-subtitle');
+  const desc = document.getElementById('cbt-gate-desc');
+  const alertBox = document.getElementById('cbt-gate-alert');
+  const btn = document.getElementById('cbt-btn-start-mandatory');
+
+  if (mode === 'relock') {
+    if (header) header.classList.add('is-relock');
+    if (badge) badge.textContent = '⚠️ Peringatan Kunci Layar';
+    if (title) title.textContent = 'KUNCI LAYAR TERLEPAS!';
+    if (subtitle) subtitle.textContent = 'Ujian Ditangguhkan Sementara';
+    if (desc) desc.innerHTML = 'Layar perangkat Anda keluar dari mode kunci penuh. Untuk melanjutkan pengerjaan ujian, Anda <strong>wajib mengunci layar kembali</strong> sekarang.';
+    if (alertBox) alertBox.innerHTML = '⚠️ <strong>Pengerjaan Soal Ditangguhkan.</strong> Soal tidak dapat diakses atau diisi sebelum layar kembali terkunci penuh.';
+    if (btn) btn.innerHTML = '<span>🔒 Kunci Layar Kembali &amp; Lanjutkan Ujian</span>';
+  } else {
+    if (header) header.classList.remove('is-relock');
+    if (badge) badge.textContent = 'CBT Ujian Kiosk — Wajib';
+    if (title) title.textContent = 'Kunci Layar Wajib Diaktifkan';
+    if (subtitle) subtitle.textContent = 'Mode Ujian Layar Penuh (Wajib Sebelum Mulai)';
+    if (desc) desc.innerHTML = 'Untuk menjamin kejujuran dan ketertiban evaluasi belajar, Anda <strong>wajib mengaktifkan Kunci Layar (Mode Ujian Penuh)</strong> sebelum dapat melihat atau mengerjakan lembar soal ini.';
+    if (alertBox) alertBox.innerHTML = '⚠️ <strong>Sifat Kunci Layar: Wajib Mutlak.</strong> Lembar soal tidak dapat diakses atau dikerjakan tanpa mengaktifkan kunci layar.';
+    if (btn) btn.innerHTML = '<span>🔒 Aktifkan Kunci Layar &amp; Mulai Ujian</span>';
+  }
+
+  gate.style.display = 'flex';
+  if (formView) formView.classList.add('cbt-gated');
+}
+
+/**
+ * Hide Mandatory CBT Screen Lock Gate Overlay
+ */
+export function hideMandatoryGate() {
+  const gate = document.getElementById('cbt-mandatory-gate');
+  const formView = document.getElementById('posttest-form-view');
+  if (gate) gate.style.display = 'none';
+  if (formView) formView.classList.remove('cbt-gated');
+}
+
+/**
+ * User activates mandatory screen lock (via button click)
+ */
+export async function activateMandatoryLock() {
+  await requestCbtFullscreen();
+  cbtState.examStarted = true;
+  try {
+    localStorage.setItem('draftlab_cbt_exam_started', 'true');
+  } catch (e) {}
+  enableCbtLock();
+  hideMandatoryGate();
+
+  const lockedBadge = document.getElementById('cbt-locked-badge');
+  const btnFullscreen = document.getElementById('cbt-btn-fullscreen');
+  if (lockedBadge) lockedBadge.style.display = 'inline-flex';
+  if (btnFullscreen) btnFullscreen.style.display = 'none';
+}
+
+/**
  * Record a Tab Switch / Out-of-App Violation
  */
 function recordViolation(reason = 'Meninggalkan tab / jendela ujian') {
@@ -235,6 +303,11 @@ export function dismissViolationModal() {
   // Re-request fullscreen and wake lock on resume
   requestCbtFullscreen();
   requestWakeLock();
+  setTimeout(() => {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && cbtState.examStarted && !cbtState.isSubmitted) {
+      showMandatoryGate('relock');
+    }
+  }, 350);
 }
 
 /**
@@ -353,12 +426,18 @@ export function enableCbtLock(options = {}) {
  */
 export function disableCbtLock() {
   cbtState.isActive = false;
+  cbtState.examStarted = false;
+  try {
+    localStorage.removeItem('draftlab_cbt_exam_started');
+  } catch (e) {}
   document.body.classList.remove('cbt-exam-active');
 
   const postTestSec = document.getElementById('quiz');
   if (postTestSec) postTestSec.classList.remove('cbt-exam-active');
   const diagSec = document.getElementById('diagnostik');
   if (diagSec) diagSec.classList.remove('cbt-exam-active');
+
+  hideMandatoryGate();
 
   const modal = document.getElementById('cbt-violation-modal');
   if (modal) modal.style.display = 'none';
@@ -372,6 +451,8 @@ export function disableCbtLock() {
     } catch (e) {}
     cbtState.wakeLock = null;
   }
+
+  exitCbtFullscreen();
 }
 
 /**
@@ -403,34 +484,44 @@ export function initCbtLock(options = {}) {
     });
   }
 
-  // Wire Fullscreen Toggle Buttons
+  // Wire Mandatory Gate Start Button (Mandatory activation)
+  const btnStartMandatory = document.getElementById('cbt-btn-start-mandatory');
+  if (btnStartMandatory) {
+    btnStartMandatory.addEventListener('click', () => {
+      activateMandatoryLock();
+    });
+  }
+
+  // Wire Lock Bar Fullscreen Button (Re-lock trigger only, never voluntary exit!)
   const btnFullscreen = document.getElementById('cbt-btn-fullscreen');
   if (btnFullscreen) {
     btnFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        requestCbtFullscreen();
-      } else {
-        exitCbtFullscreen();
-      }
+      activateMandatoryLock();
     });
   }
 
-  const btnPromptFullscreen = document.getElementById('cbt-btn-prompt-fullscreen');
-  if (btnPromptFullscreen) {
-    btnPromptFullscreen.addEventListener('click', () => {
-      requestCbtFullscreen();
-      const promptCard = document.getElementById('cbt-fullscreen-prompt');
-      if (promptCard) promptCard.style.display = 'none';
-    });
-  }
-
-  // Fullscreen state listener
+  // Fullscreen state listener: strictly enforce re-lock if fullscreen is dropped
   const onFullscreenChange = () => {
     cbtState.isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
-    if (btnFullscreen) {
-      btnFullscreen.innerHTML = cbtState.isFullscreen
-        ? '<span>✕ Keluar Penuh</span>'
-        : '<span>⛶ Kunci Layar</span>';
+    const lockedBadge = document.getElementById('cbt-locked-badge');
+    const btnFullscreenEl = document.getElementById('cbt-btn-fullscreen');
+
+    if (cbtState.isFullscreen) {
+      if (lockedBadge) lockedBadge.style.display = 'inline-flex';
+      if (btnFullscreenEl) btnFullscreenEl.style.display = 'none';
+      if (cbtState.examStarted && !cbtState.isSubmitted) {
+        hideMandatoryGate();
+      }
+    } else {
+      if (lockedBadge) lockedBadge.style.display = 'none';
+      if (btnFullscreenEl) {
+        btnFullscreenEl.style.display = 'inline-flex';
+        btnFullscreenEl.innerHTML = '<span>⚠️ Kunci Layar</span>';
+      }
+      // If exam is ongoing and not submitted, screen lock is strictly mandatory!
+      if (cbtState.isActive && cbtState.examStarted && !cbtState.isSubmitted) {
+        showMandatoryGate('relock');
+      }
     }
   };
   document.addEventListener('fullscreenchange', onFullscreenChange);

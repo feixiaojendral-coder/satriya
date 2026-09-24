@@ -154,56 +154,231 @@
   transform: translateY(0);
 }
 
-/* Prompt Banner Masuk Layar Penuh */
-.cbt-fullscreen-prompt {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1.5px dashed #3b82f6;
-  border-radius: 12px;
-  padding: 0.85rem 1.15rem;
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.cbt-fullscreen-prompt-left {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex: 1;
-  min-width: 200px;
-}
-
-.cbt-fullscreen-prompt-left span.icon {
-  font-size: 1.35rem;
-}
-
-.cbt-fullscreen-prompt-left div strong {
-  display: block;
-  font-size: 0.82rem;
-  color: #1e3a8a;
-}
-
-.cbt-fullscreen-prompt-left div small {
-  font-size: 0.72rem;
-  color: #3b82f6;
-}
-
-.cbt-fullscreen-prompt-btn {
-  background: #2567b9;
-  color: #ffffff;
-  border: none;
-  padding: 0.45rem 1rem;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(37, 103, 185, 0.25);
+.cbt-locked-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cbt-fullscreen-toggle.is-relock {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  border-color: #f59e0b;
+  animation: cbtPulseRelock 1.5s infinite;
+}
+
+@keyframes cbtPulseRelock {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* --- Mandatory CBT Screen Lock Gate Overlay (Wajib Tanpa Pilihan Batal) --- */
+.cbt-mandatory-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999990;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  animation: cbtFadeIn 0.3s ease-out;
+}
+
+@keyframes cbtFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cbt-gate-card {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(37, 103, 185, 0.3);
+  overflow: hidden;
+  animation: cbtModalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.cbt-gate-header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  padding: 1.5rem 1.75rem 1.25rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid #2567b9;
+}
+
+.cbt-gate-header.is-relock {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+  border-bottom-color: #ef4444;
+}
+
+.cbt-gate-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.35rem;
+  display: inline-block;
+  animation: cbtPulse 2s infinite;
+}
+
+.cbt-gate-badge {
+  display: inline-block;
+  background: rgba(37, 103, 185, 0.25);
+  border: 1px solid #3b82f6;
+  color: #93c5fd;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin-bottom: 0.6rem;
+}
+
+.cbt-gate-header.is-relock .cbt-gate-badge {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #f87171;
+  color: #fca5a5;
+}
+
+.cbt-gate-title {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.cbt-gate-subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.cbt-gate-header.is-relock .cbt-gate-subtitle {
+  color: #fca5a5;
+}
+
+.cbt-gate-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  color: #334155;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.cbt-gate-desc {
+  margin: 0 0 1rem 0;
+  font-size: 0.88rem;
+  color: #1e293b;
+}
+
+.cbt-gate-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.15rem;
+}
+
+.cbt-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+}
+
+.cbt-feature-item .feat-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.cbt-feature-item div strong {
+  display: block;
+  font-size: 0.84rem;
+  color: #0f172a;
+  margin-bottom: 0.15rem;
+}
+
+.cbt-feature-item div small {
+  display: block;
+  font-size: 0.76rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.cbt-gate-alert {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.cbt-gate-footer {
+  padding: 1rem 1.5rem 1.25rem;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  box-sizing: border-box;
+}
+
+.cbt-btn-start-mandatory {
+  width: 100%;
+  background: linear-gradient(135deg, #2567b9 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 1.25rem;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px -4px rgba(37, 103, 185, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.cbt-btn-start-mandatory:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 10px 25px -4px rgba(37, 103, 185, 0.55);
+  transform: translateY(-2px);
+}
+
+.cbt-btn-start-mandatory:active {
+  transform: translateY(0);
+}
+
+/* Blur underlying exam form when gate is up */
+#posttest-form-view.cbt-gated > *:not(#cbt-mandatory-gate):not(#cbt-lock-bar) {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* --- Anti-Cheat CSS Protections --- */
@@ -428,4 +603,40 @@
   .cbt-modal-footer {
     padding: 0 1rem 1.25rem 1rem;
   }
+  .cbt-gate-card {
+    border-radius: 18px;
+    max-height: 94vh;
+  }
+  .cbt-gate-header {
+    padding: 1.15rem 1rem 0.9rem;
+  }
+  .cbt-gate-icon {
+    font-size: 2rem;
+  }
+  .cbt-gate-title {
+    font-size: 1.15rem;
+  }
+  .cbt-gate-subtitle {
+    font-size: 0.76rem;
+  }
+  .cbt-gate-body {
+    padding: 1rem;
+  }
+  .cbt-feature-item {
+    padding: 0.5rem 0.65rem;
+  }
+  .cbt-feature-item div strong {
+    font-size: 0.78rem;
+  }
+  .cbt-feature-item div small {
+    font-size: 0.7rem;
+  }
+  .cbt-gate-footer {
+    padding: 0.85rem 1rem 1rem;
+  }
+  .cbt-btn-start-mandatory {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
 }
+

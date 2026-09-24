@@ -4084,24 +4084,61 @@
                 <div class="cbt-violation-pill" id="cbt-violation-pill">
                   <span>Pelanggaran: <strong id="cbt-violation-count">0</strong>/3</span>
                 </div>
-                <button type="button" class="cbt-fullscreen-toggle" id="cbt-btn-fullscreen" title="Kunci Layar Penuh">
-                  <span>⛶ Kunci Layar</span>
-                </button>
+                <div class="cbt-lock-badge-wrap" id="cbt-lock-badge-wrap">
+                  <span class="cbt-locked-badge" id="cbt-locked-badge">🔒 Terkunci Penuh</span>
+                  <button type="button" class="cbt-fullscreen-toggle is-relock" id="cbt-btn-fullscreen" style="display: none;" title="Kunci Layar Penuh">
+                    <span>⚠️ Kunci Layar</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <!-- Fullscreen Prompt Helper for Mobile HP -->
-            <div class="cbt-fullscreen-prompt" id="cbt-fullscreen-prompt">
-              <div class="cbt-fullscreen-prompt-left">
-                <span class="icon">📱</span>
-                <div>
-                  <strong>Mode Layar Penuh Ujian (Kunci Layar HP)</strong>
-                  <small>Sembunyikan bilah alamat &amp; cegah perpindahan tab agar ujian aman.</small>
+            <!-- Mandatory CBT Exam Lock Gate (Wajib Aktifkan Sebelum Mulai Ujian) -->
+            <div class="cbt-mandatory-gate" id="cbt-mandatory-gate" role="dialog" aria-modal="true" aria-labelledby="cbt-gate-title">
+              <div class="cbt-gate-card">
+                <div class="cbt-gate-header" id="cbt-gate-header">
+                  <div class="cbt-gate-icon" id="cbt-gate-icon">🔒</div>
+                  <span class="cbt-gate-badge" id="cbt-gate-badge">CBT Ujian Kiosk — Wajib</span>
+                  <h2 class="cbt-gate-title" id="cbt-gate-title">Kunci Layar Wajib Diaktifkan</h2>
+                  <p class="cbt-gate-subtitle" id="cbt-gate-subtitle">Mode Ujian Layar Penuh (Wajib Sebelum Mulai)</p>
+                </div>
+                <div class="cbt-gate-body">
+                  <p class="cbt-gate-desc" id="cbt-gate-desc">
+                    Untuk menjamin kejujuran dan ketertiban evaluasi belajar, Anda <strong>wajib mengaktifkan Kunci Layar (Mode Ujian Penuh)</strong> sebelum dapat melihat atau mengerjakan lembar soal ini.
+                  </p>
+                  <div class="cbt-gate-features">
+                    <div class="cbt-feature-item">
+                      <span class="feat-icon">📱</span>
+                      <div>
+                        <strong>Kunci Layar Penuh (Fullscreen Kiosk)</strong>
+                        <small>Bilah browser dan tab disembunyikan agar tampilan seperti aplikasi ujian resmi.</small>
+                      </div>
+                    </div>
+                    <div class="cbt-feature-item">
+                      <span class="feat-icon">🚨</span>
+                      <div>
+                        <strong>Sistem Deteksi Anti-Curang Aktif</strong>
+                        <small>Dilarang keluar aplikasi atau berpindah tab (toleransi maksimal 3x pelanggaran sebelum jawaban otomatis diserahkan).</small>
+                      </div>
+                    </div>
+                    <div class="cbt-feature-item">
+                      <span class="feat-icon">💡</span>
+                      <div>
+                        <strong>Layar Selalu Menyala (Wake-Lock)</strong>
+                        <small>Layar HP tetap aktif dan tidak akan redup/terkunci otomatis selama Anda mengerjakan.</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cbt-gate-alert" id="cbt-gate-alert">
+                    ⚠️ <strong>Sifat Kunci Layar: Wajib Mutlak.</strong> Lembar soal tidak dapat diakses atau dikerjakan tanpa mengaktifkan kunci layar.
+                  </div>
+                </div>
+                <div class="cbt-gate-footer">
+                  <button type="button" class="cbt-btn-start-mandatory" id="cbt-btn-start-mandatory">
+                    <span>🔒 Aktifkan Kunci Layar &amp; Mulai Ujian</span>
+                  </button>
                 </div>
               </div>
-              <button type="button" class="cbt-fullscreen-prompt-btn" id="cbt-btn-prompt-fullscreen">
-                <span>⛶ Aktifkan Layar Penuh</span>
-              </button>
             </div>
 
             <!-- Hero Header Card -->
@@ -5382,7 +5419,7 @@
               <th style="width: 90px;">No. Absen</th>
               <th>Kelas</th>
               <th style="width: 110px;">Skor PG (60)</th>
-              <th style="width: 140px;">Status Esai (10)</th>
+              <th style="width: 140px;">Status Esai (15)</th>
               <th>Waktu Serah</th>
             </tr>
           </thead>

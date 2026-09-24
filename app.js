@@ -454,6 +454,8 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(window.resizeBoardCanvas, 100);
         } else if (target === 'pencils' && typeof window.resizePencilCanvas === 'function') {
           setTimeout(window.resizePencilCanvas, 100);
+        } else if (target === 'quiz') {
+          window.dispatchEvent(new CustomEvent('draftlab:open-quiz'));
         }
       });
     });

@@ -7,7 +7,7 @@
  */
 
 import { getStudentSession, getScriptUrl } from './auth.js';
-import { initCbtLock, enableCbtLock, disableCbtLock, cbtState, requestCbtFullscreen } from './cbt-lock.js';
+import { initCbtLock, enableCbtLock, disableCbtLock, cbtState, requestCbtFullscreen, showMandatoryGate, hideMandatoryGate, activateMandatoryLock } from './cbt-lock.js';
 
 const DRAFT_STORAGE_KEY = 'draftlab_posttest_draft';
 const SUBMISSIONS_STORAGE_KEY = 'draftlab_posttest_submissions';
@@ -934,11 +934,36 @@ export function initPostTest() {
 
   const isCompleted = localStorage.getItem(COMPLETED_STORAGE_KEY) === 'true';
   if (!isCompleted) {
-    enableCbtLock({
-      maxViolations: 3,
-      onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
-    });
+    const hasStarted = localStorage.getItem('draftlab_cbt_exam_started') === 'true';
+    if (!hasStarted) {
+      showMandatoryGate('start');
+    } else {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        showMandatoryGate('relock');
+      } else {
+        hideMandatoryGate();
+        enableCbtLock({
+          maxViolations: 3,
+          onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
+        });
+      }
+    }
+  } else {
+    hideMandatoryGate();
+    disableCbtLock();
   }
+
+  // Listen for navigation to quiz tab to ensure mandatory gate is shown
+  window.addEventListener('draftlab:open-quiz', () => {
+    const isNowCompleted = localStorage.getItem(COMPLETED_STORAGE_KEY) === 'true';
+    if (!isNowCompleted) {
+      if (!cbtState.examStarted) {
+        showMandatoryGate('start');
+      } else if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        showMandatoryGate('relock');
+      }
+    }
+  });
 
   // 1. Sync Student Name Display in Post-Test Strip
   const studentNameDisplay = document.getElementById('posttest-student-name-display');
@@ -1061,10 +1086,15 @@ export function initPostTest() {
         const resultWrap = document.getElementById('posttest-result-view');
         if (formWrap) formWrap.style.display = 'block';
         if (resultWrap) resultWrap.style.display = 'none';
-        enableCbtLock({
-          maxViolations: 3,
-          onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
-        });
+
+        cbtState.examStarted = false;
+        cbtState.isSubmitted = false;
+        cbtState.violationCount = 0;
+        try {
+          localStorage.removeItem('draftlab_cbt_exam_started');
+        } catch (e) {}
+
+        showMandatoryGate('start');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
