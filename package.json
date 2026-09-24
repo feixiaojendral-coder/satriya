@@ -1,0 +1,15 @@
+{
+  "name": "draft-lab-ppg",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Media pembelajaran gambar teknik manual interaktif berbasis Vite.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.0"
+  }
+}
