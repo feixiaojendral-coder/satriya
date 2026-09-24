@@ -58,6 +58,9 @@
   top: 0;
   z-index: 95;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .web-locked-banner .banner-left {
@@ -65,10 +68,12 @@
   align-items: center;
   gap: 0.6rem;
   font-weight: 600;
+  min-width: 0;
 }
 
 .web-locked-banner .banner-icon {
   font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 .web-locked-banner .banner-tag {
@@ -80,13 +85,21 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.web-locked-banner .banner-right {
+  min-width: 0;
 }
 
 /* --- MAIN DIAGNOSTIC CONTAINER --- */
 .diag-container {
+  width: 100%;
   max-width: 1040px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 4rem 1.25rem;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 /* Diagnostic Hero Header */
@@ -99,6 +112,10 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(18, 63, 118, 0.06);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-hero-card::before {
@@ -121,6 +138,9 @@
   letter-spacing: 0.08em;
   color: #2567b9;
   text-transform: uppercase;
+  flex-wrap: wrap;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .diag-hero-title {
@@ -130,6 +150,8 @@
   letter-spacing: -0.025em;
   line-height: 1.25;
   margin-bottom: 0.4rem;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .diag-hero-meta {
@@ -140,6 +162,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem 1rem;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .diag-hero-meta-item {
@@ -160,6 +184,10 @@
   color: #166534;
   font-size: 0.86rem;
   line-height: 1.5;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .diag-notice-icon {
@@ -178,12 +206,25 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-student-field {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .diag-field-absen { max-width: 140px; }
+  .diag-field-kelas { max-width: 200px; }
+  .diag-field-date  { max-width: 180px; }
 }
 
 .diag-student-label {
@@ -198,6 +239,7 @@
   font-size: 0.95rem;
   font-weight: 700;
   color: #12263f;
+  word-break: break-word;
 }
 
 .diag-student-input {
@@ -210,6 +252,10 @@
   padding: 0.4rem 0.65rem;
   outline: none;
   transition: all 0.2s;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-student-input:focus {
@@ -229,6 +275,10 @@
   position: sticky;
   top: 1rem;
   z-index: 90;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-toolbar-top {
@@ -238,6 +288,8 @@
   gap: 1rem;
   margin-bottom: 0.75rem;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-progress-info {
@@ -309,6 +361,11 @@
   overflow-x: auto;
   padding-bottom: 0.35rem;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .diag-nav-btn {
@@ -369,7 +426,13 @@
   gap: 0.5rem;
   margin-bottom: 1.5rem;
   overflow-x: auto;
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .diag-sec-tab {
@@ -386,6 +449,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
+  flex-shrink: 0;
 }
 
 .diag-sec-tab:hover {
@@ -417,6 +481,10 @@
   margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(18, 63, 118, 0.05);
   display: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-section-card.active {
@@ -433,6 +501,8 @@
   border-bottom: 1.5px solid #edf4fc;
   padding-bottom: 1.25rem;
   margin-bottom: 1.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-sec-title-row {
@@ -442,6 +512,8 @@
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 0.4rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-sec-heading {
@@ -476,6 +548,10 @@
   margin-bottom: 1.75rem;
   transition: all 0.2s;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-q-item:focus-within,
@@ -490,6 +566,8 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-q-number-pill {
@@ -520,6 +598,7 @@
   color: #1e293b;
   line-height: 1.6;
   margin-bottom: 1.25rem;
+  word-break: break-word;
 }
 
 /* Context Callout Box (Case scenarios) */
@@ -532,6 +611,10 @@
   font-size: 0.92rem;
   color: #334155;
   line-height: 1.6;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 
 .diag-case-label {
@@ -557,6 +640,10 @@
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 
 /* Multiple Choice Options Grid */
@@ -564,6 +651,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-mcq-opt {
@@ -577,6 +666,10 @@
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-mcq-opt:hover {
@@ -634,11 +727,15 @@
   font-weight: 500;
   color: inherit;
   line-height: 1.45;
+  min-width: 0;
+  word-break: break-word;
+  flex: 1;
 }
 
 /* Essay Textarea */
 .diag-textarea {
   width: 100%;
+  max-width: 100%;
   min-height: 110px;
   background: #f8fafc;
   border: 1.5px solid #cbd5e1;
@@ -665,6 +762,9 @@
   display: flex;
   gap: 0.75rem;
   margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-toggle-btn {
@@ -699,12 +799,16 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-num-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-num-badge {
@@ -732,6 +836,10 @@
   color: #1e293b;
   outline: none;
   transition: all 0.2s;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-num-input:focus {
@@ -944,6 +1052,8 @@
   padding-top: 1.5rem;
   border-top: 1px solid #e2e8f0;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .diag-btn-prev,
@@ -1012,6 +1122,10 @@
   text-align: center;
   box-shadow: 0 10px 40px rgba(18, 63, 118, 0.08);
   display: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-result-card.active {
@@ -1030,6 +1144,7 @@
   font-weight: 800;
   color: #123f76;
   margin-bottom: 0.5rem;
+  word-break: break-word;
 }
 
 .diag-result-desc {
@@ -1045,7 +1160,9 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
   max-width: 780px;
+  width: 100%;
   margin: 0 auto 2.5rem auto;
+  box-sizing: border-box;
 }
 
 .diag-score-box {
@@ -1054,6 +1171,8 @@
   border-radius: 12px;
   padding: 1.25rem;
   text-align: center;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .diag-score-box.highlight {
@@ -1086,6 +1205,379 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   Prevents any horizontal overflow / blowout on screens <= 768px & <= 480px
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .web-locked-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .web-locked-banner .banner-left {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    width: 100%;
+    line-height: 1.4;
+  }
+
+  .web-locked-banner .banner-left span {
+    word-break: break-word;
+  }
+
+  .web-locked-banner .banner-right {
+    width: 100%;
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .diag-container {
+    padding: 1rem 0.65rem 3.5rem 0.65rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .diag-hero-card {
+    padding: 1.25rem 0.9rem;
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .diag-hero-eyebrow {
+    font-size: 0.7rem;
+    gap: 0.35rem;
+  }
+
+  .diag-hero-title {
+    font-size: clamp(1.2rem, 5vw, 1.55rem);
+    line-height: 1.3;
+  }
+
+  .diag-hero-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    font-size: 0.82rem;
+  }
+
+  .diag-hero-meta > span:not(.diag-hero-meta-item) {
+    display: none;
+  }
+
+  .diag-notice-box {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .diag-student-card {
+    grid-template-columns: 1fr !important;
+    padding: 1rem 0.85rem;
+    gap: 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-student-field {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  .diag-student-input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-cbt-toolbar {
+    padding: 0.85rem 0.75rem;
+    top: 0.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-toolbar-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    margin-bottom: 0.6rem;
+    width: 100%;
+  }
+
+  .diag-progress-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .diag-autosave-indicator {
+    font-size: 0.72rem;
+  }
+
+  .diag-nav-grid {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.4rem;
+  }
+
+  .diag-nav-btn {
+    min-width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+    border-radius: 7px;
+  }
+
+  .diag-section-tabs {
+    margin-bottom: 1.1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.4rem;
+  }
+
+  .diag-sec-tab {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.76rem;
+    border-radius: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .diag-section-card {
+    padding: 1.1rem 0.85rem;
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-sec-header {
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .diag-sec-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .diag-sec-heading {
+    font-size: 1.05rem;
+  }
+
+  .diag-sec-badge {
+    font-size: 0.68rem;
+  }
+
+  .diag-sec-desc {
+    font-size: 0.82rem;
+  }
+
+  .diag-q-item {
+    padding: 1rem 0.85rem;
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-q-header {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .diag-q-number-pill {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .diag-q-points {
+    font-size: 0.68rem;
+  }
+
+  .diag-q-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    word-break: break-word;
+  }
+
+  .diag-case-box {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.84rem;
+    margin-bottom: 1rem;
+    word-break: break-word;
+    border-left-width: 3px;
+  }
+
+  .diag-hint-box {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.78rem;
+    margin-bottom: 0.85rem;
+    word-break: break-word;
+  }
+
+  .diag-mcq-opt {
+    padding: 0.7rem 0.85rem;
+    gap: 0.65rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-mcq-text {
+    font-size: 0.86rem;
+    word-break: break-word;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .diag-textarea {
+    font-size: 0.88rem;
+    padding: 0.75rem 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-quick-toggle {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .diag-toggle-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.82rem;
+    box-sizing: border-box;
+  }
+
+  .diag-numbered-inputs {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-num-row {
+    gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-num-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+
+  .diag-num-input {
+    padding: 0.45rem 0.65rem;
+    font-size: 0.84rem;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-likert-scale {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .diag-bottom-bar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-btn-prev,
+  .diag-btn-next,
+  .diag-btn-submit {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    box-sizing: border-box;
+  }
+
+  .diag-result-card {
+    padding: 1.75rem 1rem;
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .diag-result-icon {
+    font-size: 2.75rem;
+  }
+
+  .diag-result-title {
+    font-size: 1.35rem;
+  }
+
+  .diag-result-desc {
+    font-size: 0.85rem;
+  }
+
+  .diag-score-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .diag-result-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .diag-result-actions button {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .diag-hero-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .diag-section-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .diag-q-item {
+    padding: 0.85rem 0.7rem;
+  }
+
+  .diag-mcq-opt {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .diag-num-row {
+    gap: 0.4rem;
+  }
+
+  .diag-num-input {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.82rem;
+  }
 }
 
 /* Print View Adjustments */

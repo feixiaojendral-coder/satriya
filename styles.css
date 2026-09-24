@@ -34,10 +34,16 @@
 }
 
 /* --- BASE STYLES --- */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -45,8 +51,11 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
   min-height: 100vh;
   display: flex;
+  position: relative;
 }
 
 /* Blueprint Grid Background */
@@ -91,7 +100,10 @@ body {
 .app-container {
   display: flex;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Sidebar Styling */
@@ -241,7 +253,10 @@ main.content-area {
   display: flex;
   flex-direction: column;
   width: calc(100% - var(--sidebar-width));
-  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: calc(100% - var(--sidebar-width));
+  min-width: 0;
+  overflow-x: hidden;
+  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Sidebar Toggle Button styling */
@@ -281,6 +296,7 @@ main.content-area {
 .app-container.sidebar-collapsed main.content-area {
   margin-left: 0;
   width: 100%;
+  max-width: 100%;
 }
 
 header.top-header {
@@ -329,6 +345,10 @@ header.top-header {
   display: none;
   padding: 2rem;
   flex-grow: 1;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
   animation: fadeIn 0.4s ease-out forwards;
 }
 
@@ -336,6 +356,8 @@ header.top-header {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 100%;
+  min-width: 0;
 }
 
 @keyframes fadeIn {

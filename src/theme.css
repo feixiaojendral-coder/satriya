@@ -3705,16 +3705,25 @@ header.top-header {
   main.content-area,
   .app-container.sidebar-collapsed main.content-area {
     width: 100%;
+    max-width: 100%;
     margin-left: 0;
+    min-width: 0;
+    overflow-x: hidden;
   }
 
   header.top-header {
     height: 74px;
     padding: 0 1rem;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .app-section {
     padding: 1.2rem;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .intro-banner {
@@ -3759,6 +3768,10 @@ header.top-header {
 
   .app-section {
     padding: 0.85rem;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 
   .dashboard-materi-section {
@@ -8334,6 +8347,10 @@ header.top-header {
   background: rgba(11, 23, 54, 0.68);
   backdrop-filter: blur(12px) saturate(160%);
   animation: authFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .auth-modal-backdrop.fade-out {
@@ -8353,7 +8370,8 @@ header.top-header {
 .auth-card {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: min(480px, 100%);
+  box-sizing: border-box;
   background: #ffffff;
   border-radius: 22px;
   border: 1px solid rgba(220, 231, 244, 0.95);
