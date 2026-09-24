@@ -625,49 +625,32 @@ async function sendPostTestToSpreadsheet(record) {
     kelas: record.student.kelas,
     mcqScore: record.scores.mcqScore,
     mcqScoreFormatted: `${record.scores.mcqScore}/60`,
+    mcqCorrectCount: `${Math.round(record.scores.mcqScore / 3)} / 20`,
     essayAnsweredCount: record.scores.essayAnsweredCount,
     essayCountFormatted: `${record.scores.essayAnsweredCount}/15`,
     estimatedScore: record.scores.estimatedTotalScore,
     pelanggaranTab: record.violations || 0,
-    statusPengerjaan: record.isForced ? `DISUBMIT OTOMATIS (${record.forceReason})` : 'Selesai Mandiri',
-    // MCQ answers 1-20
-    q1: record.answers.mcq[1] || '-',
-    q2: record.answers.mcq[2] || '-',
-    q3: record.answers.mcq[3] || '-',
-    q4: record.answers.mcq[4] || '-',
-    q5: record.answers.mcq[5] || '-',
-    q6: record.answers.mcq[6] || '-',
-    q7: record.answers.mcq[7] || '-',
-    q8: record.answers.mcq[8] || '-',
-    q9: record.answers.mcq[9] || '-',
-    q10: record.answers.mcq[10] || '-',
-    q11: record.answers.mcq[11] || '-',
-    q12: record.answers.mcq[12] || '-',
-    q13: record.answers.mcq[13] || '-',
-    q14: record.answers.mcq[14] || '-',
-    q15: record.answers.mcq[15] || '-',
-    q16: record.answers.mcq[16] || '-',
-    q17: record.answers.mcq[17] || '-',
-    q18: record.answers.mcq[18] || '-',
-    q19: record.answers.mcq[19] || '-',
-    q20: record.answers.mcq[20] || '-',
-    // Essay answers 21-35
-    q21: record.answers.essay[21] || '-',
-    q22: record.answers.essay[22] || '-',
-    q23: record.answers.essay[23] || '-',
-    q24: record.answers.essay[24] || '-',
-    q25: record.answers.essay[25] || '-',
-    q26: record.answers.essay[26] || '-',
-    q27: record.answers.essay[27] || '-',
-    q28: record.answers.essay[28] || '-',
-    q29: record.answers.essay[29] || '-',
-    q30: record.answers.essay[30] || '-',
-    q31: record.answers.essay[31] || '-',
-    q32: record.answers.essay[32] || '-',
-    q33: record.answers.essay[33] || '-',
-    q34: record.answers.essay[34] || '-',
-    q35: record.answers.essay[35] || '-'
+    statusPengerjaan: record.isForced ? `DISUBMIT OTOMATIS (${record.forceReason})` : 'Selesai Mandiri'
   };
+
+  // MCQ answers 1-20 with correctness indicator for Google Sheets
+  for (let i = 1; i <= 20; i++) {
+    const key = POST_TEST_MCQ_KEYS[i];
+    const userAns = (record.answers.mcq && record.answers.mcq[i]) ? record.answers.mcq[i] : '-';
+    payload['q' + i] = userAns;
+    if (userAns === '-') {
+      payload['pg_' + i] = '-';
+    } else if (userAns === key) {
+      payload['pg_' + i] = `${userAns} ✅`;
+    } else {
+      payload['pg_' + i] = `${userAns} ❌ (K: ${key})`;
+    }
+  }
+
+  // Essay answers 21-35
+  for (let j = 21; j <= 35; j++) {
+    payload['q' + j] = (record.answers.essay && record.answers.essay[j]) ? record.answers.essay[j] : '-';
+  }
 
   try {
     await fetch(scriptUrl, {
@@ -684,7 +667,7 @@ async function sendPostTestToSpreadsheet(record) {
 }
 
 /**
- * Display Result Card
+ * Display Result Card (Tampilan Bersih Tanda Terima Siswa - Tanpa Bocoran Rekap/Kunci)
  */
 function showPostTestResultCard(record) {
   const formWrap = document.getElementById('posttest-form-view');
@@ -695,52 +678,16 @@ function showPostTestResultCard(record) {
 
     const idEl = document.getElementById('posttest-res-id');
     const studentEl = document.getElementById('posttest-res-student');
-    const mcqScoreEl = document.getElementById('posttest-res-mcq-score');
-    const essayCountEl = document.getElementById('posttest-res-essay-count');
     const timeEl = document.getElementById('posttest-res-time');
-    const badgeEl = document.getElementById('posttest-res-badge');
     const btnCert = document.getElementById('posttest-btn-open-cert');
 
     if (idEl) idEl.textContent = record.id;
     if (studentEl) studentEl.textContent = `${record.student.nama} (${record.student.kelas} • Absen: ${record.student.absen})`;
-    if (mcqScoreEl) mcqScoreEl.textContent = `${record.scores.mcqScore} / 60`;
-    if (essayCountEl) essayCountEl.textContent = `${record.scores.essayAnsweredCount} / 15 Soal`;
     if (timeEl) timeEl.textContent = record.waktu;
 
-    // Predicate
-    if (badgeEl) {
-      if (record.scores.mcqScore >= 54) {
-        badgeEl.textContent = 'SANGAT KOMPETEN (A)';
-        badgeEl.style.color = '#15803d';
-      } else if (record.scores.mcqScore >= 42) {
-        badgeEl.textContent = 'KOMPETEN (B)';
-        badgeEl.style.color = '#2567b9';
-      } else {
-        badgeEl.textContent = 'CUKUP / PERLU PEMBINAAN (C)';
-        badgeEl.style.color = '#d97706';
-      }
-    }
-
-    // Enable certificate claim if student passed MCQ nicely
+    // Sembunyikan klaim sertifikat langsung (nilai esai & rekap dipegang guru)
     if (btnCert) {
-      if (record.scores.mcqScore >= 42) {
-        btnCert.style.display = 'inline-flex';
-        btnCert.onclick = () => {
-          const certModal = document.getElementById('certificate-modal');
-          const inputStudentName = document.getElementById('cert-student-name');
-          const displayStudentName = document.getElementById('cert-display-name');
-          const displayScore = document.getElementById('cert-display-score');
-          const displayBadge = document.getElementById('cert-display-badge');
-
-          if (certModal) certModal.style.display = 'flex';
-          if (inputStudentName) inputStudentName.value = record.student.nama;
-          if (displayStudentName) displayStudentName.textContent = record.student.nama.toUpperCase();
-          if (displayScore) displayScore.textContent = `${record.scores.mcqScore} / 60 (PG) + Esai Terisi`;
-          if (displayBadge) displayBadge.textContent = record.scores.mcqScore >= 54 ? 'CHIEF DRAFTSMAN (DISTINCTION)' : 'EXPERT DRAFTSMAN';
-        };
-      } else {
-        btnCert.style.display = 'none';
-      }
+      btnCert.style.display = 'none';
     }
 
     // Render CBT Integrity Violation Note
@@ -760,8 +707,9 @@ function showPostTestResultCard(record) {
       }
     }
 
-    // Render Answer Key & Review section
-    renderReviewAccordion(record);
+    // Sembunyikan rekap pembahasan jawaban di tampilan siswa
+    const reviewBox = document.querySelector('.posttest-review-container');
+    if (reviewBox) reviewBox.style.display = 'none';
 
     disableCbtLock();
 

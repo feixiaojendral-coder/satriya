@@ -4978,24 +4978,24 @@
           <!-- View 2: Result & Feedback Card (Setelah Diserahkan) -->
           <div id="posttest-result-view" style="display: none;">
             <div class="posttest-result-wrapper">
-              <div class="posttest-result-icon">🏆</div>
-              <h2 class="posttest-result-title">Tes Pemahaman Berhasil Dikirim!</h2>
+              <div class="posttest-result-icon">✅</div>
+              <h2 class="posttest-result-title">Jawaban Tes Pemahaman Berhasil Dikirim!</h2>
               <p class="posttest-result-sub">
-                Terima kasih telah menyelesaikan Post-Test Pertemuan 1 Gambar Teknik Manual. Data jawaban Anda telah tersimpan dan terverifikasi di sistem DRAFT-LAB.
+                Terima kasih telah menyelesaikan Post-Test Pertemuan 1 Gambar Teknik Manual. Seluruh lembar jawaban Anda (20 Soal Pilihan Ganda &amp; 15 Soal Esai) telah tersimpan aman dan terkirim ke sistem penilaian guru.
               </p>
 
               <div class="posttest-score-banner">
                 <div class="posttest-score-card">
-                  <span>Skor Pilihan Ganda</span>
-                  <strong id="posttest-res-mcq-score">0 / 60</strong>
-                </div>
-                <div class="posttest-score-card essay-card">
-                  <span>Esai Diserahkan</span>
-                  <strong id="posttest-res-essay-count">0 / 15</strong>
+                  <span>Status Pengerjaan</span>
+                  <strong style="color: #10b981; font-size: 1.15rem;">SELESAI &amp; TERSIMPAN</strong>
                 </div>
                 <div class="posttest-score-card">
-                  <span>Predikat Capaian</span>
-                  <strong id="posttest-res-badge" style="font-size: 1.15rem; margin-top: 0.35rem;">KOMPETEN</strong>
+                  <span>Soal Diserahkan</span>
+                  <strong>35 Soal (20 PG + 15 Esai)</strong>
+                </div>
+                <div class="posttest-score-card">
+                  <span>Penyimpanan Cloud</span>
+                  <strong style="color: #2567b9; font-size: 1.05rem;">Google Spreadsheet Guru</strong>
                 </div>
               </div>
 
@@ -5013,8 +5013,8 @@
                   <span id="posttest-res-time">-</span>
                 </div>
                 <div class="posttest-receipt-row">
-                  <span>Status Esai:</span>
-                  <span style="color: #0d9488; font-weight: 700;">Menunggu Penilaian Guru (Maks 40 Poin)</span>
+                  <span>Status Rekapitulasi:</span>
+                  <span style="color: #0d9488; font-weight: 700;">Data Masuk ke Buku Rekap Guru</span>
                 </div>
                 <div class="posttest-receipt-row" id="posttest-res-violations-row" style="display: none;">
                   <span>Catatan Pengawas (CBT):</span>
@@ -5022,22 +5022,22 @@
                 </div>
               </div>
 
-              <div class="posttest-result-actions">
-                <button type="button" class="cta-button" id="posttest-btn-open-cert" style="display: none;">🎓 Buka Sertifikat Kelulusan</button>
-                <button type="button" class="glass-btn" id="posttest-btn-print-result">🖨️ Cetak / Simpan Bukti PDF</button>
-                <button type="button" class="glass-btn" id="posttest-btn-retry">🔄 Kerjakan Ulang</button>
-                <button type="button" class="glass-btn" onclick="document.querySelector('.nav-item[data-target=\'diagnostik\']')?.click()">📋 Ke Tes Diagnostik Awal</button>
+              <!-- Notice Box Pengumuman Nilai Guru -->
+              <div class="posttest-notice-box" style="margin: 1.25rem 0; padding: 1rem 1.25rem; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; text-align: left;">
+                <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                  <span style="font-size: 1.35rem;">🔒</span>
+                  <div>
+                    <strong style="color: #166534; font-size: 0.92rem; display: block; margin-bottom: 0.25rem;">Informasi Hasil &amp; Rekapitulasi Ujian</strong>
+                    <p style="color: #15803d; font-size: 0.82rem; margin: 0; line-height: 1.5;">
+                      Untuk menjaga ketertiban dan kejujuran evaluasi pembelajaran, rekapan nilai dan pembahasan kunci jawaban tidak ditampilkan kepada peserta didik. Nilai Pilihan Ganda dan hasil koreksi Esai akan direkap serta diumumkan langsung oleh Bapak/Ibu Guru.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <!-- Accordion Pembahasan Jawaban PG -->
-              <div class="posttest-review-container">
-                <div class="posttest-review-header">
-                  <span>📖</span>
-                  <span>Pembahasan &amp; Kunci Jawaban Pilihan Ganda</span>
-                </div>
-                <div id="posttest-review-list">
-                  <!-- Rendered by JS -->
-                </div>
+              <div class="posttest-result-actions">
+                <button type="button" class="glass-btn" id="posttest-btn-print-result">🖨️ Cetak / Simpan Bukti PDF</button>
+                <button type="button" class="glass-btn" onclick="document.querySelector('.nav-item[data-target=\'diagnostik\']')?.click()">📋 Ke Tes Diagnostik Awal</button>
               </div>
             </div>
           </div>
