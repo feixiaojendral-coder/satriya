@@ -20,7 +20,7 @@ export const DEFAULT_SCRIPT_URL = 'https://sheetdb.io/api/v1/dsn6t93x0uhsr';
 
 export function getScriptUrl() {
   const saved = localStorage.getItem(SCRIPT_URL_STORAGE_KEY);
-  if (saved && !saved.includes('GANTI_DENGAN_URL') && !saved.includes('macros/s/AKfycbwFJaCScOY49jSX0mfliQJXBAatbN6mUGhoAqDlDcbxoiD6Jxj38jzcBb3wzwQp4IQ')) {
+  if (saved && saved.startsWith('https://sheetdb.io/api/v1/')) {
     return saved;
   }
   return DEFAULT_SCRIPT_URL;
