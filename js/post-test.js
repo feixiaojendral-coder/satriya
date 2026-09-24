@@ -7,6 +7,7 @@
  */
 
 import { getStudentSession, getScriptUrl } from './auth.js';
+import { initCbtLock, enableCbtLock, disableCbtLock, cbtState, requestCbtFullscreen } from './cbt-lock.js';
 
 const DRAFT_STORAGE_KEY = 'draftlab_posttest_draft';
 const SUBMISSIONS_STORAGE_KEY = 'draftlab_posttest_submissions';
@@ -516,7 +517,7 @@ function switchPostTestTab(tabName) {
 /**
  * Submit Post-Test
  */
-export async function submitPostTest() {
+export async function submitPostTest(isForced = false, forceReason = '') {
   const scores = calculatePostTestScore();
   const session = getStudentSession() || {};
   const student = {
@@ -525,13 +526,15 @@ export async function submitPostTest() {
     kelas: session.kelas || postTestState.student.kelas || 'X T. Pemesinan'
   };
 
-  const unansweredTotal = (20 - scores.mcqCorrectCount) + (10 - scores.essayAnsweredCount);
   const unansweredActual = (20 - Object.keys(postTestState.answers.mcq).length) + (10 - scores.essayAnsweredCount);
 
-  if (unansweredActual > 0) {
+  if (!isForced && unansweredActual > 0) {
     const proceed = confirm(`Peringatan: Ada ${unansweredActual} soal yang belum Anda isi.\n\nApakah Anda yakin ingin menyelesaikan dan mengirimkan jawaban sekarang?`);
     if (!proceed) return;
   }
+
+  // Deactivate CBT exam lock now that test is finished
+  disableCbtLock();
 
   const submissionId = `DL-POST-2026-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
   const now = new Date();
@@ -542,7 +545,11 @@ export async function submitPostTest() {
     waktu: now.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Jakarta' }),
     student,
     scores,
-    answers: JSON.parse(JSON.stringify(postTestState.answers))
+    answers: JSON.parse(JSON.stringify(postTestState.answers)),
+    violations: cbtState.violationCount || 0,
+    violationEntries: cbtState.violations ? JSON.parse(JSON.stringify(cbtState.violations)) : [],
+    isForced: !!isForced,
+    forceReason: forceReason || ''
   };
 
   // 1. Save locally to submissions history
@@ -591,6 +598,8 @@ async function sendPostTestToSpreadsheet(record) {
     essayAnsweredCount: record.scores.essayAnsweredCount,
     essayCountFormatted: `${record.scores.essayAnsweredCount}/10`,
     estimatedScore: record.scores.estimatedTotalScore,
+    pelanggaranTab: record.violations || 0,
+    statusPengerjaan: record.isForced ? `DISUBMIT OTOMATIS (${record.forceReason})` : 'Selesai Mandiri',
     // MCQ answers 1-20
     q1: record.answers.mcq[1] || '-',
     q2: record.answers.mcq[2] || '-',
@@ -699,8 +708,27 @@ function showPostTestResultCard(record) {
       }
     }
 
+    // Render CBT Integrity Violation Note
+    const violationRow = document.getElementById('posttest-res-violations-row');
+    const violationNoteEl = document.getElementById('posttest-res-violation-note');
+    if (violationRow && violationNoteEl) {
+      violationRow.style.display = 'flex';
+      if (record.isForced) {
+        violationNoteEl.style.color = '#dc2626';
+        violationNoteEl.textContent = `⚠️ Disubmit Otomatis: Melanggar batas perpindahan tab (${record.violations}x)`;
+      } else if (record.violations > 0) {
+        violationNoteEl.style.color = '#d97706';
+        violationNoteEl.textContent = `ℹ️ ${record.violations}x Perpindahan Tab/Jendela Tercatat`;
+      } else {
+        violationNoteEl.style.color = '#16a34a';
+        violationNoteEl.textContent = `✓ Bersih (0 Pelanggaran)`;
+      }
+    }
+
     // Render Answer Key & Review section
     renderReviewAccordion(record);
+
+    disableCbtLock();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -862,6 +890,20 @@ function escapeHtml(str) {
 export function initPostTest() {
   loadSavedDraft();
 
+  // Initialize and activate CBT Exam Lock (Anti-Pindah Tab)
+  initCbtLock({
+    maxViolations: 3,
+    onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
+  });
+
+  const isCompleted = localStorage.getItem(COMPLETED_STORAGE_KEY) === 'true';
+  if (!isCompleted) {
+    enableCbtLock({
+      maxViolations: 3,
+      onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
+    });
+  }
+
   // 1. Sync Student Name Display in Post-Test Strip
   const studentNameDisplay = document.getElementById('posttest-student-name-display');
   const studentMetaDisplay = document.getElementById('posttest-student-meta-display');
@@ -983,6 +1025,10 @@ export function initPostTest() {
         const resultWrap = document.getElementById('posttest-result-view');
         if (formWrap) formWrap.style.display = 'block';
         if (resultWrap) resultWrap.style.display = 'none';
+        enableCbtLock({
+          maxViolations: 3,
+          onAutoSubmit: (isForced, reason) => submitPostTest(isForced, reason)
+        });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });

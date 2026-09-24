@@ -4068,6 +4068,42 @@
 
           <!-- View 1: Formulir Pengerjaan Post-Test -->
           <div id="posttest-form-view">
+            <!-- CBT Exam Lock Status Bar (Anti-Pindah Tab) -->
+            <div class="cbt-lock-bar" id="cbt-lock-bar">
+              <div class="cbt-lock-status">
+                <div class="cbt-lock-icon-wrap">
+                  <span>🔒</span>
+                  <span class="cbt-pulse-indicator"></span>
+                </div>
+                <div class="cbt-lock-text">
+                  <strong>CBT Layar Terkunci Aktif</strong>
+                  <small>Dilarang keluar dari tab atau berpindah aplikasi</small>
+                </div>
+              </div>
+              <div class="cbt-lock-meta">
+                <div class="cbt-violation-pill" id="cbt-violation-pill">
+                  <span>Pelanggaran: <strong id="cbt-violation-count">0</strong>/3</span>
+                </div>
+                <button type="button" class="cbt-fullscreen-toggle" id="cbt-btn-fullscreen" title="Kunci Layar Penuh">
+                  <span>⛶ Kunci Layar</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Fullscreen Prompt Helper for Mobile HP -->
+            <div class="cbt-fullscreen-prompt" id="cbt-fullscreen-prompt">
+              <div class="cbt-fullscreen-prompt-left">
+                <span class="icon">📱</span>
+                <div>
+                  <strong>Mode Layar Penuh Ujian (Kunci Layar HP)</strong>
+                  <small>Sembunyikan bilah alamat &amp; cegah perpindahan tab agar ujian aman.</small>
+                </div>
+              </div>
+              <button type="button" class="cbt-fullscreen-prompt-btn" id="cbt-btn-prompt-fullscreen">
+                <span>⛶ Aktifkan Layar Penuh</span>
+              </button>
+            </div>
+
             <!-- Hero Header Card -->
             <div class="posttest-hero-card">
               <div class="posttest-badge-row">
@@ -4873,6 +4909,10 @@
                   <span>Status Esai:</span>
                   <span style="color: #0d9488; font-weight: 700;">Menunggu Penilaian Guru (Maks 40 Poin)</span>
                 </div>
+                <div class="posttest-receipt-row" id="posttest-res-violations-row" style="display: none;">
+                  <span>Catatan Pengawas (CBT):</span>
+                  <span id="posttest-res-violation-note" style="color: #dc2626; font-weight: 700;">-</span>
+                </div>
               </div>
 
               <div class="posttest-result-actions">
@@ -5302,6 +5342,47 @@
         <div class="rekap-footer-actions">
           <button type="button" id="btn-clear-history" class="rekap-btn-clear">🗑️ Hapus Riwayat Browser</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CBT VIOLATION WARNING MODAL (ANTI-PINDAH TAB) ================= -->
+  <div id="cbt-violation-modal" class="cbt-modal-backdrop" role="alertdialog" aria-modal="true">
+    <div class="cbt-modal-card">
+      <div class="cbt-modal-header">
+        <div class="cbt-modal-alert-icon">⚠️</div>
+        <h3 class="cbt-modal-title">Peringatan Pelanggaran Ujian!</h3>
+        <span class="cbt-modal-badge" id="cbt-modal-violation-badge">Pelanggaran 1 dari 3</span>
+      </div>
+      <div class="cbt-modal-body">
+        <div class="cbt-violation-box">
+          <div class="cbt-violation-box-title">
+            <span>🚨</span>
+            <span>Terdeteksi Berpindah Tab / Keluar Aplikasi</span>
+          </div>
+          <p class="cbt-violation-box-desc">
+            Waktu Kejadian: <span class="cbt-violation-time" id="cbt-modal-violation-time">--:--:-- WIB</span>
+          </p>
+        </div>
+        <p id="cbt-modal-violation-desc" style="margin-bottom: 1rem; font-weight: 500;">
+          Sistem mencatat Anda meninggalkan halaman ujian. Sisa toleransi: <strong>2 kali lagi</strong> sebelum jawaban otomatis dikumpulkan!
+        </p>
+        <div class="cbt-modal-rules">
+          <strong>Peraturan Ujian Digital (CBT):</strong>
+          <ul>
+            <li>Dilarang membuka tab browser baru atau aplikasi lain (WhatsApp, Catatan, kalkulator, dsb).</li>
+            <li>Dilarang menarik bilah notifikasi atau membagi layar (split-screen).</li>
+            <li>Jika pelanggaran mencapai 3 kali, ujian akan <strong>otomatis dikumpulkan</strong> ke guru.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cbt-modal-footer">
+        <button type="button" id="cbt-btn-resume" class="cbt-btn-resume">
+          <span>⚠️ Saya Mengerti &amp; Kembali ke Ujian</span>
+        </button>
+        <button type="button" id="cbt-btn-forced-submit" class="cbt-btn-forced-submit" style="display: none;">
+          <span>🔒 Ujian Dihentikan &amp; Dikumpulkan Otomatis</span>
+        </button>
       </div>
     </div>
   </div>

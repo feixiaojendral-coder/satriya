@@ -4,6 +4,7 @@ import './lkpd.css';
 import './intro.css';
 import './diagnostik.css';
 import './post-test.css';
+import './cbt-lock.css';
 import '../app.js';
 import '../js/tools.js';
 import '../js/pencils.js';
