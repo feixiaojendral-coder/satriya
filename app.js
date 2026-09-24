@@ -398,16 +398,18 @@ document.addEventListener('DOMContentLoaded', () => {
       item.addEventListener('click', () => {
         const target = item.getAttribute('data-target');
         
-        // Lock check: if web is locked, allow ONLY diagnostik and quiz (post-test)
-        if (target !== 'diagnostik' && target !== 'quiz' && isWebLocked()) {
+        // Lock check: if web is locked, allow ONLY diagnostik (Post-Test & materi lainnya terkunci)
+        if (target !== 'diagnostik' && isWebLocked()) {
           if (window.showDraftlabToast) {
             window.showDraftlabToast(
-              "Modul Terkunci (Pertemuan 1)",
-              "Khusus Pertemuan 1, hanya modul Tes Diagnostik Awal dan Tes Pemahaman (Post-Test) yang dapat diakses.",
+              target === 'quiz' ? "Tes Pemahaman Terkunci" : "Modul Terkunci (Pertemuan 1)",
+              target === 'quiz'
+                ? "Modul Tes Pemahaman (Post-Test) saat ini masih dikunci dan akan dibuka oleh guru setelah kegiatan pembelajaran selesai."
+                : "Khusus tahap ini, hanya instrumen Tes Diagnostik Awal yang dapat diakses.",
               "🔒"
             );
           } else {
-            alert("🔒 Modul Terkunci: Khusus Pertemuan 1, hanya modul Tes Diagnostik Awal dan Tes Pemahaman (Post-Test) yang dapat diakses.");
+            alert(target === 'quiz' ? "🔒 Tes Pemahaman (Post-Test) masih dikunci guru." : "🔒 Modul ini dikunci guru.");
           }
           return;
         }

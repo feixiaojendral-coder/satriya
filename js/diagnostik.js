@@ -83,8 +83,8 @@ export function updateLockUI() {
 
   navItems.forEach(item => {
     const target = item.getAttribute('data-target');
-    // Pada Pertemuan 1, hanya modul Tes Diagnostik dan Tes Pemahaman (Post-Test) yang terbuka
-    const isAllowed = (target === 'diagnostik' || target === 'quiz');
+    // Khusus tahap ini, hanya modul Tes Diagnostik yang terbuka (Tes Pemahaman / Post-Test dikunci guru)
+    const isAllowed = (target === 'diagnostik');
     if (isAllowed) {
       item.classList.remove('is-locked');
       const badge = item.querySelector('.nav-lock-badge');
@@ -98,7 +98,7 @@ export function updateLockUI() {
       if (!badge) {
         badge = document.createElement('span');
         badge.className = 'nav-lock-badge';
-        badge.title = 'Terkunci — Khusus Pertemuan 1 hanya Tes Diagnostik & Tes Pemahaman yang dibuka';
+        badge.title = 'Terkunci — Khusus tahap ini hanya Tes Diagnostik Awal yang dibuka';
         badge.textContent = '🔒';
         item.appendChild(badge);
       }
@@ -387,11 +387,41 @@ function showResultCard(record) {
 
     if (statusNote) {
       if (isWebLocked()) {
-        statusNote.innerHTML = '🔒 <em>Catatan: Platform DRAFT-LAB saat ini dikunci untuk Pertemuan 1. Anda dapat melanjutkan ke modul <strong>Tes Pemahaman (Post-Test)</strong> di menu sebelah kiri atau klik tombol di bawah.</em>';
+        statusNote.innerHTML = '🔒 <em>Catatan: Jawaban Tes Diagnostik Awal Anda telah tersimpan dengan aman. Modul pembelajaran dan <strong>Tes Pemahaman (Post-Test)</strong> saat ini masih dikunci dan akan dibuka oleh guru sesuai tahapan kegiatan belajar.</em>';
       } else {
         statusNote.innerHTML = '🎉 <strong>Akses Terbuka!</strong> Anda sekarang dapat mengakses modul pembelajaran dan simulator DRAFT-LAB.';
         const btnGo = document.getElementById('diag-btn-enter-app');
         if (btnGo) btnGo.style.display = 'inline-flex';
+      }
+    }
+
+    const btnPosttest = document.getElementById('diag-btn-goto-posttest');
+    if (btnPosttest) {
+      if (isWebLocked()) {
+        btnPosttest.classList.add('is-locked');
+        btnPosttest.style.opacity = '0.65';
+        btnPosttest.style.cursor = 'not-allowed';
+        btnPosttest.innerHTML = '<span>🔒 Tes Pemahaman (Post-Test Masih Dikunci)</span>';
+        btnPosttest.onclick = (e) => {
+          e.preventDefault();
+          if (window.showDraftlabToast) {
+            window.showDraftlabToast(
+              "Tes Pemahaman Terkunci",
+              "Modul Tes Pemahaman (Post-Test) saat ini masih dikunci dan akan dibuka oleh guru setelah kegiatan pembelajaran selesai.",
+              "🔒"
+            );
+          } else {
+            alert("🔒 Modul Tes Pemahaman (Post-Test) saat ini masih dikunci guru.");
+          }
+        };
+      } else {
+        btnPosttest.classList.remove('is-locked');
+        btnPosttest.style.opacity = '1';
+        btnPosttest.style.cursor = 'pointer';
+        btnPosttest.innerHTML = '<span>Lanjut ke Tes Pemahaman (Post-Test) ➔</span>';
+        btnPosttest.onclick = () => {
+          document.querySelector('.nav-item[data-target=\'quiz\']')?.click();
+        };
       }
     }
   }

@@ -242,10 +242,11 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           <span>Lembar Kerja (LKPD)</span>
         </div>
-        <div class="nav-item" data-target="quiz">
+        <div class="nav-item is-locked" data-target="quiz">
           <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           <span>Tes Pemahaman</span>
-          <span class="nav-badge-posttest" style="margin-left: auto; background: #2567b9; color: #ffffff; font-size: 0.62rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 6px;">POST-TEST</span>
+          <span class="nav-badge-posttest" style="margin-left: auto; background: #64748b; color: #ffffff; font-size: 0.62rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 6px;">POST-TEST</span>
+          <span class="nav-lock-badge" title="Terkunci — Khusus tahap ini hanya Tes Diagnostik Awal yang dibuka">🔒</span>
         </div>
       </nav>
 
@@ -352,11 +353,11 @@
       <div id="web-locked-banner" class="web-locked-banner">
         <div class="banner-left">
           <span class="banner-icon">🔒</span>
-          <span>Akses Terbatas Pertemuan 1 — <strong>Hanya Tes Diagnostik Awal (Pre-Test) &amp; Tes Pemahaman (Post-Test) yang Dibuka</strong></span>
+          <span>Akses Terbatas Pertemuan 1 — <strong>Hanya Tes Diagnostik Awal yang Dibuka</strong></span>
           <span class="banner-tag">Pertemuan 1</span>
         </div>
         <div class="banner-right">
-          <small style="opacity: 0.85;">Modul materi lainnya dikunci dan akan dibuka guru pada pertemuan berikutnya.</small>
+          <small style="opacity: 0.85;">Tes Pemahaman (Post-Test) &amp; modul materi lainnya dikunci oleh guru.</small>
         </div>
       </div>
 
@@ -783,8 +784,8 @@
             <p id="diag-result-lock-status" style="font-size: 0.9rem; color: #536a85; margin-bottom: 2rem;"></p>
 
             <div class="diag-result-actions">
-              <button type="button" id="diag-btn-goto-posttest" class="diag-btn-next" onclick="document.querySelector('.nav-item[data-target=\'quiz\']')?.click()">
-                <span>Lanjut ke Tes Pemahaman (Post-Test) ➔</span>
+              <button type="button" id="diag-btn-goto-posttest" class="diag-btn-next is-locked" style="opacity: 0.65; cursor: not-allowed;" onclick="if(window.showDraftlabToast){window.showDraftlabToast('Tes Pemahaman Terkunci','Modul Tes Pemahaman (Post-Test) saat ini masih dikunci dan akan dibuka oleh guru setelah kegiatan pembelajaran selesai.','🔒');}else{alert('🔒 Modul Tes Pemahaman (Post-Test) saat ini masih dikunci guru.');}">
+                <span>🔒 Tes Pemahaman (Post-Test Masih Dikunci)</span>
               </button>
               <button type="button" id="diag-btn-print" class="diag-btn-prev" style="background: #edf4fc; border-color: #2567b9; color: #2567b9;">
                 <span>🖨️ Cetak / Simpan PDF Lembar Jawaban</span>
@@ -5195,11 +5196,11 @@
           <span style="font-size: 1.25rem;">🔒</span>
           <div>
             <strong style="font-size: 0.85rem; color: #123f76;">Mode Akses Pembelajaran (Platform Lock):</strong>
-            <p style="font-size: 0.74rem; color: #536a85; margin: 0;">Khusus Pertemuan 1: hanya Tes Diagnostik Awal dan Tes Pemahaman (Post-Test) yang aktif.</p>
+            <p style="font-size: 0.74rem; color: #536a85; margin: 0;">Khusus Pertemuan 1: hanya Tes Diagnostik Awal yang aktif (Post-Test &amp; materi lainnya dikunci guru).</p>
           </div>
         </div>
         <select id="teacher-lock-mode-select" style="padding: 0.45rem 0.85rem; border-radius: 8px; border: 1.5px solid #2567b9; font-weight: 700; font-size: 0.82rem; background: #ffffff; color: #123f76; cursor: pointer;">
-          <option value="locked">🔒 Mode Pertemuan 1 (Hanya Tes Diagnostik &amp; Post-Test Aktif)</option>
+          <option value="locked">🔒 Mode Terkunci (Hanya Tes Diagnostik Awal Aktif)</option>
           <option value="unlock_on_complete">🔓 Otomatis Buka Semua Setelah Selesai Tes</option>
           <option value="unlocked">🔓 Buka Penuh (Semua Modul Bebas)</option>
         </select>
